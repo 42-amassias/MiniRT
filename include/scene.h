@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:25:35 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/21 18:33:50 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:39:03 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,14 @@ typedef struct s_scene
 {
 	t_camera		camera;
 	t_light_ambient	ambient;
-	t_light_simple	*lights;
-	t_object		*objects;
+	/**
+	 * @brief NULL terminated #s_lights list.
+	 */
+	t_light_simple	**lights;
+	t_object		**objects;
+	/**
+	 * @brief NULL terminated #s_objects list.
+	 */
 }	t_scene;
 
 #endif
