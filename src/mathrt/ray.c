@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   renderer.h                                         :+:      :+:    :+:   */
+/*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 19:14:10 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/21 20:23:33 by ale-boud         ###   ########.fr       */
+/*   Created: 2024/03/21 20:36:01 by ale-boud          #+#    #+#             */
+/*   Updated: 2024/03/21 20:47:13 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file renderer.h
+ * @file ray.c
  * @author ale-boud (ale-boud@student.42lehavre.fr)
- * @brief Renderer definition
+ * @brief Ray function declaration.
  * @date 2024-03-21
  * @copyright Copyright (c) 2024
  */
-
-#ifndef RENDERER_H
-# define RENDERER_H
 
 // ************************************************************************** //
 // *                                                                        * //
@@ -27,45 +24,21 @@
 // *                                                                        * //
 // ************************************************************************** //
 
-# include "scene.h"
-# include "framebuffer.h"
+#include "mathrt.h"
 
 // ************************************************************************** //
 // *                                                                        * //
-// * Structure definition                                                   * //
+// * Function header                                                        * //
 // *                                                                        * //
 // ************************************************************************** //
 
-typedef struct s_render_unit
+t_point3	*ray_at(
+				const t_ray *ray,
+				t_point3 *p,
+				t_coord t
+				)
 {
-	t_scene			*scene;
-	t_point3		pixel00;
-	t_vector3		u;
-	t_vector3		v;
-	t_point3		center;
-	t_framebuffer	*fb;
-}	t_render_unit;
-
-// ************************************************************************** //
-// *                                                                        * //
-// * Function definition                                                    * //
-// *                                                                        * //
-// ************************************************************************** //
-
-/**
- * @brief Renders the `scene` into the `buffer`.
- * @param fb The framebuffer to fill.
- * @param scene The scene to render.
- */
-void	render_scene(
-			t_scene *scene,
-			t_framebuffer *fb
-			);
-
-void	render_init(
-			t_render_unit *runit,
-			t_scene *scene,
-			t_framebuffer *fb
-			);
-
-#endif
+	vec3_mul(p, &ray->dir, t);
+	vec3_add(p, p, &ray->origin);
+	return (p);
+}

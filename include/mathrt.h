@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:10:38 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/21 18:48:58 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/21 20:43:52 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 
 #ifndef MATHRT_H
 # define MATHRT_H
+
+# define FAR 10000.0
+# define NEAR 0.01
 
 // ************************************************************************** //
 // *                                                                        * //
@@ -92,8 +95,83 @@ typedef struct s_hit
 
 // ************************************************************************** //
 // *                                                                        * //
-// * Function prototypes                                                    * //
+// * Vector function prototypes                                             * //
 // *                                                                        * //
 // ************************************************************************** //
+
+t_coord		vec3_dot(
+				const t_vector3 *v1,
+				const t_vector3 *v2
+				);
+
+t_vector3	*vec3_cross(
+				t_vector3 *r,
+				const t_vector3 *v1,
+				const t_vector3 *v2
+				);
+
+t_vector3	*vec3_add(
+				t_vector3 *r,
+				const t_vector3 *v1,
+				const t_vector3 *v2
+				);
+
+t_vector3	*vec3_mul(
+				t_vector3 *r,
+				const t_vector3 *v,
+				t_coord scale
+				);
+
+t_vector3	*vec3_sub(
+				t_vector3 *r,
+				const t_vector3 *v1,
+				const t_vector3 *v2
+				);
+
+t_vector3	*vec3_normalize(
+				t_vector3 *r,
+				const t_vector3 *v
+				);
+
+t_coord		vec3_len_squared(
+				const t_vector3 *v
+				);
+
+t_coord		vec3_len(
+				const t_vector3 *v
+				);
+
+// ************************************************************************** //
+// *                                                                        * //
+// * Hit function definition                                                * //
+// *                                                                        * //
+// ************************************************************************** //
+
+/**
+ * @brief Set the hit structure (set color manually, thank norminette).
+ * @param hit The hit
+ * @param ray The ray
+ * @param normal The normal
+ * @param color The color
+ * @return the hit
+ */
+t_hit		*hit_create(
+				t_hit *hit,
+				const t_ray *ray,
+				const t_vector3 *normal,
+				t_coord t
+				);
+
+// ************************************************************************** //
+// *                                                                        * //
+// * Ray function definition                                                * //
+// *                                                                        * //
+// ************************************************************************** //
+
+t_point3	*ray_at(
+				const t_ray *ray,
+				t_point3 *p,
+				t_coord t
+				);
 
 #endif

@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   renderer.h                                         :+:      :+:    :+:   */
+/*   vec3_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 19:14:10 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/21 20:23:33 by ale-boud         ###   ########.fr       */
+/*   Created: 2024/03/21 19:57:33 by ale-boud          #+#    #+#             */
+/*   Updated: 2024/03/21 20:45:15 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file renderer.h
+ * @file vec3_utils.c
  * @author ale-boud (ale-boud@student.42lehavre.fr)
- * @brief Renderer definition
+ * @brief Vector utilities function.
  * @date 2024-03-21
  * @copyright Copyright (c) 2024
  */
-
-#ifndef RENDERER_H
-# define RENDERER_H
 
 // ************************************************************************** //
 // *                                                                        * //
@@ -27,45 +24,61 @@
 // *                                                                        * //
 // ************************************************************************** //
 
-# include "scene.h"
-# include "framebuffer.h"
+#include <math.h>
+
+#include "mathrt.h"
 
 // ************************************************************************** //
 // *                                                                        * //
-// * Structure definition                                                   * //
+// * Function header                                                        * //
 // *                                                                        * //
 // ************************************************************************** //
 
-typedef struct s_render_unit
+t_coord	vec3_dot(
+			const t_vector3 *v1,
+			const t_vector3 *v2
+			)
 {
-	t_scene			*scene;
-	t_point3		pixel00;
-	t_vector3		u;
-	t_vector3		v;
-	t_point3		center;
-	t_framebuffer	*fb;
-}	t_render_unit;
+	return (v1->x * v2->x + v1->y * v2->y + v1->z * v2->z);
+}
 
-// ************************************************************************** //
-// *                                                                        * //
-// * Function definition                                                    * //
-// *                                                                        * //
-// ************************************************************************** //
+t_vector3	*vec3_cross(
+				t_vector3 *r,
+				const t_vector3 *v1,
+				const t_vector3 *v2
+				)
+{
+	*r = (t_vector3){
+		v1->y * v2->z - v1->z * v2->y,
+		v1->z * v2->x - v1->x * v2->z,
+		v1->x * v2->y - v1->y * v2->x,
+	};
+	return (r);
+}
 
-/**
- * @brief Renders the `scene` into the `buffer`.
- * @param fb The framebuffer to fill.
- * @param scene The scene to render.
- */
-void	render_scene(
-			t_scene *scene,
-			t_framebuffer *fb
-			);
+t_vector3	*vec3_normalize(
+				t_vector3 *r,
+				const t_vector3 *v
+				)
+{
+	const t_coord	len = vec3_len(v);
 
-void	render_init(
-			t_render_unit *runit,
-			t_scene *scene,
-			t_framebuffer *fb
-			);
+	r->x = v->x / len;
+	r->y = v->y / len;
+	r->z = v->z / len;
+	return (r);
+}
 
-#endif
+t_coord	vec3_len_squared(
+			const t_vector3 *v
+			)
+{
+	return (vec3_dot(v, v));
+}
+
+t_coord	vec3_len(
+			const t_vector3 *v
+			)
+{
+	return (sqrt(vec3_len_squared(v)));
+}
