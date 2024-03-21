@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
+/*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:18:20 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/21 17:39:47 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/21 17:50:01 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,14 @@ typedef struct s_scene
 	t_object		*objects;
 }	t_scene;
 
+typedef struct s_framebuffer {
+	void	*img;
+	char	*data;
+	int		bits_per_pixel;
+	int		line_len;
+	int		endian;
+}	t_framebuffer;
+
 /* ************************************************************************** */
 /*                                                                            */
 /* Header protoypes                                                           */
@@ -150,7 +158,7 @@ typedef struct s_scene
 void	scene_render(
 			unsigned int width,
 			unsigned int height,
-			unsigned char *buffer,
+			char *buffer,
 			t_scene *scene
 			);
 
