@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:27:24 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/21 18:33:56 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:50:37 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,11 @@
 typedef struct s_light_simple
 {
 	t_point3	origin;
-	float		brightness;
 	t_color		color;
 }	t_light_simple;
 
 typedef struct s_light_ambient
 {
-	float		ratio;
 	t_color		color;
 }	t_light_ambient;
 

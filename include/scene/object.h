@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:26:05 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/21 18:32:42 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:42:43 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,11 @@ typedef struct s_object
 	}					data;
 	t_object_type		type;
 }	t_object;
+
+typedef struct s_object_vt
+{
+	int		(*hitten)(t_ray);
+	t_color	(*get_color)(t_ray);
+}	t_object_vt;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:10:38 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/21 18:35:12 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:48:58 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,24 @@ typedef struct s_ray
 	t_point3	origin;
 	t_vector3	dir;
 }	t_ray;
+
+/**
+ * @brief Hit definition.
+ */
+typedef struct s_hit
+{
+	/**
+	 * @brief Hit position.
+	 */
+	t_point3	p;
+	t_vector3	normal;
+	t_vector3	from_dir;
+	t_color		color;
+	/**
+	 * @brief Ray len between origin and the hit.
+	 */
+	t_coord		t;
+}	t_hit;
 
 // ************************************************************************** //
 // *                                                                        * //
