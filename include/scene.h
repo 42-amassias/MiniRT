@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:25:35 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/21 19:00:57 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/21 19:35:40 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,17 @@ typedef struct s_scene
 // * Function prototype                                                     * //
 // *                                                                        * //
 // ************************************************************************** //
+
+/**
+ * @brief Loads a scene given a `path`.
+ * @param scene A pointer to the scene to build.
+ * @param path The path of the file describing the scene.
+ * @return `NULL` if an error occured, `scene` otherwise.
+ */
+t_scene	*load_scene(
+			t_scene *scene,
+			const char *path
+			);
 
 float	scene_hit_brightness(
 			const t_scene *scene,
