@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   math.h                                             :+:      :+:    :+:   */
+/*   object.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 18:10:38 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/21 18:22:44 by ale-boud         ###   ########.fr       */
+/*   Created: 2024/03/21 18:26:05 by ale-boud          #+#    #+#             */
+/*   Updated: 2024/03/21 18:32:42 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file math.h
+ * @file object.h
  * @author ale-boud (ale-boud@student.42lehavre.fr)
- * @brief Math utilitaries.
+ * @brief 
  * @date 2024-03-21
  * @copyright Copyright (c) 2024
  */
 
-#ifndef MATH_H
-# define MATH_H
+#ifndef OBJECT_H
+# define OBJECT_H
 
 // ************************************************************************** //
 // *                                                                        * //
@@ -27,7 +27,7 @@
 // *                                                                        * //
 // ************************************************************************** //
 
-
+# include "mathrt.h"
 
 // ************************************************************************** //
 // *                                                                        * //
@@ -35,49 +35,46 @@
 // *                                                                        * //
 // ************************************************************************** //
 
-/**
- * @brief Coordinate type.
- */
-typedef float		t_coord;
-
-/**
- * @brief Vector definition.
- */
-typedef struct s_vector3
+typedef enum e_object_type
 {
-	t_coord	x;
-	t_coord	y;
-	t_coord	z;
-}	t_vector3;
+	OT_SPHERE,
+	OT_PLANE,
+	OT_CYLINDER,
+	OT__COUNT
+}	t_object_type;
 
-typedef t_vector3	t_point3;
-typedef t_vector3	t_point3;
-
-/**
- * @brief Color definition.
- */
-typedef struct s_color
-{
-	float	r;
-	float	g;
-	float	b;
-}	t_color;
-
-/**
- * @brief Ray definition.
- */
-typedef struct s_ray
+typedef struct s_object_sphere
 {
 	t_point3	origin;
-	t_vector3	dir;
-}	t_ray;
+	t_coord		diameter;
+	t_color		color;
+}	t_object_sphere;
 
-// ************************************************************************** //
-// *                                                                        * //
-// * Function prototypes                                                    * //
-// *                                                                        * //
-// ************************************************************************** //
+typedef struct s_object_plane
+{
+	t_point3	origin;
+	t_point3	normal;
+	t_color		color;
+}	t_object_plane;
 
+typedef struct s_object_cylinder
+{
+	t_point3	origin;
+	t_point3	axis;
+	t_coord		diameter;
+	t_coord		height;
+	t_color		color;
+}	t_object_cylinder;
 
+typedef struct s_object
+{
+	union	u_object
+	{
+		t_object_sphere		sphere;
+		t_object_plane		plane;
+		t_object_cylinder	cylinder;
+	}					data;
+	t_object_type		type;
+}	t_object;
 
 #endif
