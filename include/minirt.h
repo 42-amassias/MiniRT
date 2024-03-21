@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:18:20 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/21 17:50:01 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/21 17:50:26 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,14 +133,6 @@ typedef struct s_scene
 	t_light_simple	*lights;
 	t_object		*objects;
 }	t_scene;
-
-typedef struct s_framebuffer {
-	void	*img;
-	char	*data;
-	int		bits_per_pixel;
-	int		line_len;
-	int		endian;
-}	t_framebuffer;
 
 /* ************************************************************************** */
 /*                                                                            */
