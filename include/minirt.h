@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:18:20 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/21 17:50:26 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:19:07 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@
 
 #ifndef MINIRT_H
 # define MINIRT_H
+
+// ************************************************************************** //
+// *                                                                        * //
+// * Includes                                                               * //
+// *                                                                        * //
+// ************************************************************************** //
+
+# include "math.h"
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -36,51 +44,31 @@ typedef enum e_object_type
 
 /* ************************************************************************** */
 /*                                                                            */
-/* Structures - Utilitaries                                                   */
-/*                                                                            */
-/* ************************************************************************** */
-
-typedef struct s_point
-{
-	float	x;
-	float	y;
-	float	z;
-}	t_point;
-
-typedef struct s_color
-{
-	unsigned char	r;
-	unsigned char	g;
-	unsigned char	b;
-}	t_color;
-
-/* ************************************************************************** */
-/*                                                                            */
 /* Structures - Objects                                                       */
 /*                                                                            */
 /* ************************************************************************** */
 
 typedef struct s_object_sphere
 {
-	t_point	origin;
-	float	diameter;
-	t_color	color;
+	t_point3	origin;
+	t_coord		diameter;
+	t_color		color;
 }	t_object_sphere;
 
 typedef struct s_object_plane
 {
-	t_point	origin;
-	t_point	normal;
-	t_color	color;
+	t_point3	origin;
+	t_point3	normal;
+	t_color		color;
 }	t_object_plane;
 
 typedef struct s_object_cylinder
 {
-	t_point	origin;
-	t_point	axis;
-	float	diameter;
-	float	height;
-	t_color	color;
+	t_point3	origin;
+	t_point3	axis;
+	t_coord		diameter;
+	t_coord		height;
+	t_color		color;
 }	t_object_cylinder;
 
 typedef struct s_object
@@ -102,15 +90,15 @@ typedef struct s_object
 
 typedef struct s_light_simple
 {
-	t_point	origin;
-	float	brightness;
-	t_color	color;
+	t_point3	origin;
+	float		brightness;
+	t_color		color;
 }	t_light_simple;
 
 typedef struct s_light_ambiant
 {
-	float	ratio;
-	t_color	color;
+	float		ratio;
+	t_color		color;
 }	t_light_ambiant;
 
 /* ************************************************************************** */
@@ -121,9 +109,9 @@ typedef struct s_light_ambiant
 
 typedef struct s_camera
 {
-	t_point	position;
-	t_point	orientation;
-	float	fov;
+	t_point3	position;
+	t_point3	orientation;
+	float		fov;
 }	t_camera;
 
 typedef struct s_scene
