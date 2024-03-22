@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:10:38 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/21 20:43:52 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/22 11:34:21 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,12 @@ t_vector3	*vec3_mul(
 				t_vector3 *r,
 				const t_vector3 *v,
 				t_coord scale
+				);
+
+t_vector3	*vec3_div(
+				t_vector3 *r,
+				const t_vector3 *v,
+				t_coord n
 				);
 
 t_vector3	*vec3_sub(

@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec3_utils.c                                       :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 19:57:33 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/22 11:59:27 by ale-boud         ###   ########.fr       */
+/*   Created: 2024/03/22 11:16:57 by ale-boud          #+#    #+#             */
+/*   Updated: 2024/03/22 11:49:17 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file vec3_utils.c
+ * @file init.c
  * @author ale-boud (ale-boud@student.42lehavre.fr)
- * @brief Vector utilities function.
- * @date 2024-03-21
+ * @brief Renderer init function.
+ * @date 2024-03-22
  * @copyright Copyright (c) 2024
  */
 
@@ -26,61 +26,39 @@
 
 #include <math.h>
 
-#include "mathrt.h"
+#include "renderer.h"
 
 // ************************************************************************** //
 // *                                                                        * //
-// * Function header                                                        * //
+// * Header function                                                        * //
 // *                                                                        * //
 // ************************************************************************** //
 
-t_coord	vec3_dot(
-			const t_vector3 *v1,
-			const t_vector3 *v2
+void	render_init(
+			t_render_unit *runit,
+			t_scene *scene,
+			t_framebuffer *fb
 			)
 {
-	return (v1->x * v2->x + v1->y * v2->y + v1->z * v2->z);
-}
+	const float		vh = 2 * tan(scene->camera.fov);
+	const float		vw = vh * (fb->line_len / fb->height);
+	const t_vector3	w = scene->camera.orientation;
+	t_vector3		vu;
+	t_vector3		vv;
 
-t_vector3	*vec3_cross(
-				t_vector3 *r,
-				const t_vector3 *v1,
-				const t_vector3 *v2
-				)
-{
-	*r = (t_vector3){
-		v1->y * v2->z - v1->z * v2->y,
-		v1->z * v2->x - v1->x * v2->z,
-		v1->x * v2->y - v1->y * v2->x,
-	};
-	return (r);
-}
-
-t_vector3	*vec3_normalize(
-				t_vector3 *r,
-				const t_vector3 *v
-				)
-{
-	const t_coord	len = vec3_len(v);
-
-	if (len == 0.0)
-		return (r);
-	r->x = v->x / len;
-	r->y = v->y / len;
-	r->z = v->z / len;
-	return (r);
-}
-
-t_coord	vec3_len_squared(
-			const t_vector3 *v
-			)
-{
-	return (vec3_dot(v, v));
-}
-
-t_coord	vec3_len(
-			const t_vector3 *v
-			)
-{
-	return (sqrt(vec3_len_squared(v)));
+	runit->fb = fb;
+	runit->scene = scene;
+	runit->center = scene->camera.position;
+	runit->u = (t_vector3){0, 1, 0};
+	vec3_normalize(&runit->u, vec3_cross(&runit->u, &runit->u, &w));
+	vec3_normalize(&runit->v, vec3_cross(&runit->v, &w, &runit->u));
+	vec3_mul(&vu, &runit->u, vw);
+	vec3_mul(&vv, &runit->v, vh);
+	vec3_div(&runit->u, &vu, fb->line_len);
+	vec3_div(&runit->v, &vv, fb->height);
+	vec3_div(&vu, &runit->u, 2.0);
+	vec3_div(&vv, &runit->v, 2.0);
+	vec3_add(&vu, &vu, &vv);
+	vec3_add(&runit->pixel00, &scene->camera.position, &w);
+	vec3_sub(&runit->pixel00, &runit->pixel00, &vu);
 }
