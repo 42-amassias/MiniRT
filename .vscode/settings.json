@@ -4,6 +4,10 @@
 		"runit"
 	],
 	"files.associations": {
-		"random": "c"
-	}
+		"*.c": "c",
+		"*.h": "c",
+	},
+	"C_Cpp.default.defines": [
+		"M_PI"
+	]
 }
