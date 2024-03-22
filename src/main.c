@@ -73,7 +73,7 @@ int	main(
 		_quit_no_cleanup("Missing scene file.", STDERR_FILENO, 1);
 	if (argc > 2)
 		_quit_no_cleanup("Too many arguments.", STDERR_FILENO, 1);
-	if (load_scene(&scene, argv[1]) == NULL)
+	if (scene_load(&scene, argv[1]) == NULL)
 		_quit_no_cleanup("", STDERR_FILENO, 1);
 	return (0);
 }

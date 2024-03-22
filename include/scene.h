@@ -65,7 +65,7 @@ typedef struct s_scene
  * @param path The path of the file describing the scene.
  * @return `NULL` if an error occured, `scene` otherwise.
  */
-t_scene	*load_scene(
+t_scene	*scene_load(
 			t_scene *scene,
 			const char *path
 			);
