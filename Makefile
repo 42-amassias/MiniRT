@@ -118,6 +118,7 @@ $(OBJDIR)/%.res.o: $(RESDIR)/%
 .PHONY: all-minirt norminette
 
 norminette:
-	@norminette $(SRCDIR) $(INCDIR) | grep -Ev '^Notice|OK!$$'	\
-	&& $(ECHO) -e '\033[1;31mNorminette KO!'					\
+	@find $(INCDIR) $(SRCDIR) \( -type f -name \*.c -or -name \*.h \) -exec norminette {} \;	\
+		| grep -Ev '^Notice|OK!$$'																\
+	&& $(ECHO) -e '\033[1;31mNorminette KO!'													\
 	|| $(ECHO) -e '\033[1;32mNorminette OK!'
