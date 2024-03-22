@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 12:20:48 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 12:59:50 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/22 17:52:23 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ static int	_loop(
 {
 	bool (*const _update)(void *) = ctx->__hooks[__HOOK__UPDATE].fun;
 	bool (*const _render)(void *) = ctx->__hooks[__HOOK__RENDER].fun;
-
 	if (ctx->__hooks[__HOOK__UPDATE].fun)
 		if (_update(ctx->__hooks[__HOOK__UPDATE].ptr))
 			mlx_loop_end(ctx->ctx);

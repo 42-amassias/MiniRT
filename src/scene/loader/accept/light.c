@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/22 08:25:27 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 17:25:58 by amassias         ###   ########.fr       */
+/*   Created: 2024/03/22 16:55:20 by amassias          #+#    #+#             */
+/*   Updated: 2024/03/22 17:52:42 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file utils.h
+ * @file light.c
  * @author Antoine Massias (amassias@student.42lehavre.fr)
  * @date 2024-03-22
  * @copyright Copyright (c) 2024
  */
-
-#ifndef UTILS_H
-# define UTILS_H
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -26,7 +23,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "utils/dynamic_array.h"
+#include "scene_parser.h"
+#include "utils.h"
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -34,31 +32,36 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#define ORIGIN 0
+#define BRIGHTNESS 1
+#define COLOR 2
+
 /* ************************************************************************** */
 /*                                                                            */
-/* Header prototypes                                                          */
+/* Header implementation                                                      */
 /*                                                                            */
 /* ************************************************************************** */
 
-/**
- * @brief Appends `data` to `list`.
- * @param list A list.
- * @param data The element to append.
- * @return The newly allocated list or NULL it an allocation failed.
- */
-void	**list_append(
-			void **list,
-			void *data
-			);
+bool	element_acceptor__light(
+			t_scene *scene,
+			t_token tokens[]
+			)
+{
+	t_light_simple	**lights;
+	t_light_simple	*light;
 
-/**
- * @brief Frees all the resources allocated to `ptr`.
- * `ptr` should be a `NULL` terminated array and every one of its cells should
- * have been `malloc`'d. If `ptr` is `NULL`, does nothing.
- * @param ptr The list to free.
- */
-void	free_list(
-			void **ptr
-			);
-
-#endif
+	if (tokens[BRIGHTNESS].fp < 0.f || tokens[BRIGHTNESS].fp > 1.f)
+		return (false);
+	light = (t_light_simple *)malloc(sizeof(t_light_simple));
+	if (light == NULL)
+		return (false);
+	light->origin = tokens[ORIGIN].position;
+	light->color.r = tokens[COLOR].color.r * tokens[BRIGHTNESS].fp;
+	light->color.g = tokens[COLOR].color.g * tokens[BRIGHTNESS].fp;
+	light->color.b = tokens[COLOR].color.b * tokens[BRIGHTNESS].fp;
+	lights = (t_light_simple **)list_append((void **)scene->lights, light);
+	if (lights == NULL)
+		return (free(light), false);
+	scene->lights = lights;
+	return (true);
+}

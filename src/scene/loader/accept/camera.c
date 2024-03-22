@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/22 08:25:27 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 17:25:58 by amassias         ###   ########.fr       */
+/*   Created: 2024/03/22 16:55:20 by amassias          #+#    #+#             */
+/*   Updated: 2024/03/22 17:52:39 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file utils.h
+ * @file camera.c
  * @author Antoine Massias (amassias@student.42lehavre.fr)
  * @date 2024-03-22
  * @copyright Copyright (c) 2024
  */
-
-#ifndef UTILS_H
-# define UTILS_H
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -26,39 +23,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "utils/dynamic_array.h"
+#include "scene_parser.h"
 
 /* ************************************************************************** */
 /*                                                                            */
-/* Defines                                                                    */
+/* Header implementation                                                      */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* ************************************************************************** */
-/*                                                                            */
-/* Header prototypes                                                          */
-/*                                                                            */
-/* ************************************************************************** */
-
-/**
- * @brief Appends `data` to `list`.
- * @param list A list.
- * @param data The element to append.
- * @return The newly allocated list or NULL it an allocation failed.
- */
-void	**list_append(
-			void **list,
-			void *data
-			);
-
-/**
- * @brief Frees all the resources allocated to `ptr`.
- * `ptr` should be a `NULL` terminated array and every one of its cells should
- * have been `malloc`'d. If `ptr` is `NULL`, does nothing.
- * @param ptr The list to free.
- */
-void	free_list(
-			void **ptr
-			);
-
-#endif
+bool	element_acceptor__camera(
+			t_scene *scene,
+			t_token tokens[]
+			)
+{
+	if (tokens[2].fp < 0.f || tokens[2].fp > 180.f)
+		return (false);
+	scene->camera.position = tokens[0].position;
+	scene->camera.orientation = tokens[1].position;
+	scene->camera.fov = M_PI * tokens[2].fp / 180.f;
+	return (true);
+}

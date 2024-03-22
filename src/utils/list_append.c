@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   list_append.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/22 08:25:27 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 17:25:58 by amassias         ###   ########.fr       */
+/*   Created: 2024/03/22 17:19:28 by amassias          #+#    #+#             */
+/*   Updated: 2024/03/22 17:52:58 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file utils.h
+ * @file list_append.c
  * @author Antoine Massias (amassias@student.42lehavre.fr)
  * @date 2024-03-22
  * @copyright Copyright (c) 2024
  */
-
-#ifndef UTILS_H
-# define UTILS_H
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -26,39 +23,56 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "utils/dynamic_array.h"
+#include <stdlib.h>
+#include <libft.h>
 
 /* ************************************************************************** */
 /*                                                                            */
-/* Defines                                                                    */
+/* Helper protoypes                                                           */
 /*                                                                            */
 /* ************************************************************************** */
 
+static size_t	_size(
+					void **list
+					);
+
 /* ************************************************************************** */
 /*                                                                            */
-/* Header prototypes                                                          */
+/* Header implementation                                                      */
 /*                                                                            */
 /* ************************************************************************** */
 
-/**
- * @brief Appends `data` to `list`.
- * @param list A list.
- * @param data The element to append.
- * @return The newly allocated list or NULL it an allocation failed.
- */
 void	**list_append(
 			void **list,
 			void *data
-			);
+			)
+{
+	const size_t	size = _size(list);
+	void			**new_list;
 
-/**
- * @brief Frees all the resources allocated to `ptr`.
- * `ptr` should be a `NULL` terminated array and every one of its cells should
- * have been `malloc`'d. If `ptr` is `NULL`, does nothing.
- * @param ptr The list to free.
- */
-void	free_list(
-			void **ptr
-			);
+	new_list = ft_calloc(size + 2, sizeof(void *));
+	if (new_list == NULL)
+		return (NULL);
+	ft_memcpy(new_list, list, size * sizeof(void *));
+	new_list[size] = data;
+	free(list);
+	return (new_list);
+}
 
-#endif
+/* ************************************************************************** */
+/*                                                                            */
+/* Helper implementation                                                      */
+/*                                                                            */
+/* ************************************************************************** */
+
+static size_t	_size(
+					void **list
+					)
+{
+	size_t	i;
+
+	i = 0;
+	while (*list++)
+		++i;
+	return (i);
+}

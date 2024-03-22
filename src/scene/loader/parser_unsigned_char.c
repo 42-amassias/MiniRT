@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   parser_unsigned_char.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/22 08:25:27 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 17:25:58 by amassias         ###   ########.fr       */
+/*   Created: 2024/03/22 16:07:35 by amassias          #+#    #+#             */
+/*   Updated: 2024/03/22 16:25:16 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file utils.h
+ * @file parser_unsigned_char.c
  * @author Antoine Massias (amassias@student.42lehavre.fr)
  * @date 2024-03-22
  * @copyright Copyright (c) 2024
  */
-
-#ifndef UTILS_H
-# define UTILS_H
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -26,39 +23,33 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "utils/dynamic_array.h"
+#include "scene_parser.h"
+
+#include <stdbool.h>
+#include <libft.h>
 
 /* ************************************************************************** */
 /*                                                                            */
-/* Defines                                                                    */
+/* Header implementation                                                      */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* ************************************************************************** */
-/*                                                                            */
-/* Header prototypes                                                          */
-/*                                                                            */
-/* ************************************************************************** */
+char	*parser_get_unsigned_char(
+			char *str,
+			unsigned char *v
+			)
+{
+	int	_v;
 
-/**
- * @brief Appends `data` to `list`.
- * @param list A list.
- * @param data The element to append.
- * @return The newly allocated list or NULL it an allocation failed.
- */
-void	**list_append(
-			void **list,
-			void *data
-			);
-
-/**
- * @brief Frees all the resources allocated to `ptr`.
- * `ptr` should be a `NULL` terminated array and every one of its cells should
- * have been `malloc`'d. If `ptr` is `NULL`, does nothing.
- * @param ptr The list to free.
- */
-void	free_list(
-			void **ptr
-			);
-
-#endif
+	_v = 0;
+	if (!ft_isdigit(*str))
+		return (NULL);
+	while (ft_isdigit(*str))
+	{
+		_v = 10 * _v + *str++ - '0';
+		if (_v > 255)
+			return (NULL);
+	}
+	*v = (unsigned char) _v;
+	return (str);
+}

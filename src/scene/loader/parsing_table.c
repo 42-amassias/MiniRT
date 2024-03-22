@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   parsing_table.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/22 08:25:27 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 17:25:58 by amassias         ###   ########.fr       */
+/*   Created: 2024/03/22 14:12:05 by amassias          #+#    #+#             */
+/*   Updated: 2024/03/22 16:46:41 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file utils.h
+ * @file parsing_table.c
  * @author Antoine Massias (amassias@student.42lehavre.fr)
  * @date 2024-03-22
  * @copyright Copyright (c) 2024
  */
-
-#ifndef UTILS_H
-# define UTILS_H
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -26,39 +23,50 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "utils/dynamic_array.h"
+#include "scene_parser.h"
 
 /* ************************************************************************** */
 /*                                                                            */
-/* Defines                                                                    */
+/* Global variables                                                           */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* ************************************************************************** */
-/*                                                                            */
-/* Header prototypes                                                          */
-/*                                                                            */
-/* ************************************************************************** */
-
-/**
- * @brief Appends `data` to `list`.
- * @param list A list.
- * @param data The element to append.
- * @return The newly allocated list or NULL it an allocation failed.
- */
-void	**list_append(
-			void **list,
-			void *data
-			);
-
-/**
- * @brief Frees all the resources allocated to `ptr`.
- * `ptr` should be a `NULL` terminated array and every one of its cells should
- * have been `malloc`'d. If `ptr` is `NULL`, does nothing.
- * @param ptr The list to free.
- */
-void	free_list(
-			void **ptr
-			);
-
-#endif
+t_element_descriptor	g_parsing_table[] = {
+[ELEMENT_AMBIENT_LIGHT] = {
+	.name = "A",
+	.associated_tokens_count = 2,
+	.associated_tokens = {TOKEN_FLOAT, TOKEN_COLOR},
+	.acceptor = element_acceptor__ambient_light,
+},
+[ELEMENT_CAMERA] = {
+	.name = "C",
+	.associated_tokens_count = 3,
+	.associated_tokens = {TOKEN_POSITION, TOKEN_POSITION, TOKEN_FLOAT},
+	.acceptor = element_acceptor__camera,
+},
+[ELEMENT_LIGHT] = {
+	.name = "L",
+	.associated_tokens_count = 3,
+	.associated_tokens = {TOKEN_POSITION, TOKEN_FLOAT, TOKEN_COLOR},
+	.acceptor = element_acceptor__light,
+},
+[ELEMENT_SPHERE] = {
+	.name = "sp",
+	.associated_tokens_count = 3,
+	.associated_tokens = {TOKEN_POSITION, TOKEN_FLOAT, TOKEN_COLOR},
+	.acceptor = element_acceptor__sphere,
+},
+[ELEMENT_PLANE] = {
+	.name = "pl",
+	.associated_tokens_count = 3,
+	.associated_tokens = {TOKEN_POSITION, TOKEN_POSITION, TOKEN_COLOR},
+	.acceptor = element_acceptor__plane,
+},
+[ELEMENT_CYLINDER] = {
+	.name = "cy",
+	.associated_tokens_count = 5,
+	.associated_tokens = {TOKEN_POSITION, TOKEN_POSITION, TOKEN_FLOAT,
+	TOKEN_FLOAT, TOKEN_COLOR},
+	.acceptor = element_acceptor__cylinder,
+}
+};
