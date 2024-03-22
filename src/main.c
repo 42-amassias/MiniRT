@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:08:07 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 11:35:21 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/22 13:00:23 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
+#include "renderer.h"
 
 #include <mlx.h>
 #include <stdio.h>
@@ -64,6 +65,15 @@ static t_scene			*_scene_load(
 							const char *path
 							);
 
+static bool				_quit_on_q(
+							int keycode,
+							t_window_ctx *ctx
+							);
+
+static bool				_render(
+							t_minirt_ctx *ctx
+							);
+
 /* ************************************************************************** */
 /*                                                                            */
 /* Main                                                                       */
@@ -89,6 +99,9 @@ int	main(
 		scene_cleanup(&ctx.scene);
 		_quit_no_cleanup("", STDERR_FILENO, 1);
 	}
+	window_set_key_hook(&ctx.window, (t_key_hook)_quit_on_q, &ctx.window);
+	window_set_render_hook(&ctx.window, (t_render_hook)_render, &ctx);
+	window_run(&ctx.window);
 	scene_cleanup(&ctx.scene);
 	window_cleanup(&ctx.window);
 	return (0);
@@ -166,4 +179,23 @@ static t_scene	*_scene_load(
 		.diameter = 0.f
 	}};
 	return (scene);
+}
+
+static bool	_quit_on_q(
+				int keycode,
+				t_window_ctx *ctx
+				)
+{
+	(void)ctx;
+	if (keycode == 'q')
+		return (true);
+	return (false);
+}
+
+static bool	_render(
+				t_minirt_ctx *ctx
+				)
+{
+	render_scene(&ctx->scene, &ctx->window.frame_buffer);
+	return (false);
 }

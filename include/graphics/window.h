@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 09:23:54 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 09:30:29 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/22 13:01:02 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 
 # include "graphics/framebuffer.h"
 
+# include <stdbool.h>
+
 /* ************************************************************************** */
 /*                                                                            */
 /* Defines                                                                    */
@@ -40,15 +42,46 @@
 
 /* ************************************************************************** */
 /*                                                                            */
+/* Enums                                                                      */
+/*                                                                            */
+/* ************************************************************************** */
+
+enum e_hook
+{
+	__HOOK__KEY,
+	__HOOK__UPDATE,
+	__HOOK__RENDER,
+	__HOOK___COUNT
+};
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Types                                                                      */
+/*                                                                            */
+/* ************************************************************************** */
+
+typedef bool	(*t_update_hook)(void *);
+typedef bool	(*t_render_hook)(void *);
+typedef bool	(*t_key_hook)(int, void *);
+
+/* ************************************************************************** */
+/*                                                                            */
 /* Structures                                                                 */
 /*                                                                            */
 /* ************************************************************************** */
+
+struct s__hook_
+{
+	void	*fun;
+	void	*ptr;
+};
 
 typedef struct s_window_ctx
 {
 	void			*ctx;
 	void			*win;
 	t_framebuffer	frame_buffer;
+	struct s__hook_	__hooks[__HOOK___COUNT];
 }	t_window_ctx;
 
 /* ************************************************************************** */
@@ -58,6 +91,35 @@ typedef struct s_window_ctx
 /* ************************************************************************** */
 
 t_window_ctx	*window_initialize(
+					t_window_ctx *ctx
+					);
+
+void			__window_set_hook(
+					t_window_ctx *ctx,
+					enum e_hook type,
+					void *hook,
+					void *ptr
+					);
+
+void			window_set_key_hook(
+					t_window_ctx *ctx,
+					t_key_hook hook,
+					void *ptr
+					);
+
+void			window_set_update_hook(
+					t_window_ctx *ctx,
+					t_update_hook hook,
+					void *ptr
+					);
+
+void			window_set_render_hook(
+					t_window_ctx *ctx,
+					t_render_hook hook,
+					void *ptr
+					);
+
+void			window_run(
 					t_window_ctx *ctx
 					);
 
