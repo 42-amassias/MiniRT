@@ -58,10 +58,6 @@ static bool	_read_lines(
 				t_list **lines
 				);
 
-static void	_free(
-				void **ptr
-				);
-
 static char	**_tokenize(
 				char *line
 				);
@@ -95,7 +91,7 @@ t_scene	*load_scene(
 		while (*token)
 			printf("(%s) ", *token++);
 		printf("\n");
-		_free((void **)tokens);
+		free_list((void **)tokens);
 		itr = itr->next;
 	}
 	//-----
@@ -132,18 +128,6 @@ static bool	_read_lines(
 	return (false);
 }
 
-static void	_free(
-				void **ptr
-				)
-{
-	void	**itr;
-
-	itr = ptr;
-	while (*itr)
-		free(*itr++);
-	free(ptr);
-}
-
 static char	**_tokenize(
 				char *line
 				)
@@ -163,7 +147,7 @@ static char	**_tokenize(
 			continue ;
 		tmp = ft_strjoin(itr[0], itr[1]);
 		if (tmp == NULL)
-			return (_free((void **)tokens), NULL);
+			return (free_list((void **)tokens), NULL);
 		(free(itr[0]), itr2 = itr);
 		while (itr2[1])
 		{
