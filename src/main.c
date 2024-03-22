@@ -66,7 +66,7 @@ int	main(
 		char **argv
 		)
 {
-	t_scene	scene;
+	static t_scene	scene = {0};
 
 	g_pn = *argv;
 	if (argc < 2)
@@ -75,6 +75,7 @@ int	main(
 		_quit_no_cleanup("Too many arguments.", STDERR_FILENO, 1);
 	if (scene_load(&scene, argv[1]) == NULL)
 		_quit_no_cleanup("", STDERR_FILENO, 1);
+	scene_cleanup(&scene);
 	return (0);
 }
 
