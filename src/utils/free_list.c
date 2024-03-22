@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 08:27:29 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 08:28:47 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/22 08:54:59 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	free_list(
 {
 	void	**itr;
 
+	if (ptr == NULL)
+		return ;
 	itr = ptr;
 	while (*itr)
 		free(*itr++);

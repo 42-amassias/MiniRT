@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 08:25:27 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 08:30:44 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/22 08:55:23 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 /**
  * @brief Frees all the resources allocated to `ptr`.
  * `ptr` should be a `NULL` terminated array and every one of its cells should
- * have been `malloc`'d.
+ * have been `malloc`'d. If `ptr` is `NULL`, does nothing.
  * @param ptr The list to free.
  */
 void	free_list(
