@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 12:48:00 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/22 13:11:39 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/22 16:04:31 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,9 @@ void	render_throw_rays(
 				vec3_mul(&ray.dir, &runit->u, x),
 				vec3_mul(&v, &runit->v, y));
 			vec3_add(&ray.dir, &runit->pixel00, &ray.dir);
-			//render_throw_ray(runit, &color);
-			//render_put_color(runit, &color, x, y);
-			(void)(color);
-			fb_put_pixel(runit->fb, 0xFF00FFFF, x, y);
+			vec3_sub(&ray.dir, &ray.dir, &runit->center);
+			render_throw_ray(runit, &ray, &color);
+			render_put_color(runit, &color, x, y);
 			++x;
 		}
 		++y;
@@ -65,5 +64,15 @@ void	render_throw_rays(
 
 void	render_throw_ray(
 			t_render_unit *runit,
+			const t_ray *ray,
 			t_color *color
-			);
+			)
+{
+	t_hit	hit;
+
+	*color = (t_color){0.f, 0.f, 0.f};
+	if (scene_throw_ray(runit->scene, ray, &hit))
+	{
+		*color = hit.color;
+	}
+}

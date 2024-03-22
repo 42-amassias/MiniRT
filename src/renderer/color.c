@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   throw_ray.c                                        :+:      :+:    :+:   */
+/*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/22 12:51:08 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/22 14:09:39 by ale-boud         ###   ########.fr       */
+/*   Created: 2024/03/22 13:31:50 by ale-boud          #+#    #+#             */
+/*   Updated: 2024/03/22 13:48:37 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file throw_ray.c
+ * @file color.c
  * @author ale-boud (ale-boud@student.42lehavre.fr)
- * @brief Throw ray in the scene.
+ * @brief Color resolution function.
  * @date 2024-03-22
  * @copyright Copyright (c) 2024
  */
 
 // ************************************************************************** //
 // *                                                                        * //
-// * Incluldes                                                              * //
+// * Includes                                                               * //
 // *                                                                        * //
 // ************************************************************************** //
 
-#include <stdlib.h>
+#include "graphics/framebuffer.h"
 
-#include "scene.h"
+#include "renderer.h"
 
 // ************************************************************************** //
 // *                                                                        * //
@@ -34,31 +34,36 @@
 // *                                                                        * //
 // ************************************************************************** //
 
-int	scene_throw_ray(
-		t_scene *scene,
-		const t_ray *ray,
-		t_hit *hit_info)
+void	render_put_color(
+			t_render_unit *runit,
+			const t_color *color,
+			int x,
+			int y
+			)
 {
-	t_object	**obj;
-	t_hit		tmp_hit;
-	t_coord		min;
+	uint32_t	encoded_color;
 	int			r;
+	int			g;
+	int			b;
 
-	min = FAR;
-	r = 0;
-	obj = scene->objects;
-	while (*obj != NULL)
-	{
-		if (g_object_vt[(*obj)->type].hitten(*obj, ray, &tmp_hit))
-		{
-			r = 1;
-			if (tmp_hit.t < min)
-			{
-				*hit_info = tmp_hit;
-				min = tmp_hit.t;
-			}
-		}
-		++obj;
-	}
-	return (r);
+	r = (int)((float)0xFF * color->r);
+	g = (int)((float)0xFF * color->g);
+	b = (int)((float)0xFF * color->b);
+	if (r < 0)
+		r = 0;
+	if (g < 0)
+		g = 0;
+	if (b < 0)
+		b = 0;
+	if (r > 0xFF)
+		r = 0xFF;
+	if (g > 0xFF)
+		g = 0xFF;
+	if (b > 0xFF)
+		b = 0xFF;
+	encoded_color = ((b & 0xFF) << 0)
+		| ((g & 0xFF) << 8)
+		| ((r & 0xFF) << 16)
+		| (0xFF << 24);
+	fb_put_pixel(runit->fb, encoded_color, x, y);
 }

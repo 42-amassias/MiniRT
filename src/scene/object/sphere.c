@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 19:37:49 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/21 20:46:47 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/22 14:15:20 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,12 @@ int	sphere_hitten(
 	half_b = vec3_dot(&oc, &ray->dir);
 	discriminant = half_b * half_b - vec3_len_squared(&ray->dir)
 		* (vec3_len_squared(&oc) - radius * radius);
+	if (discriminant < 0)
+		return (0);
 	root = (-half_b - sqrt(discriminant)) / vec3_len_squared(&ray->dir);
-	if (root < NEAR)
+	if (root < NEAR || root > FAR)
 		root = (-half_b + sqrt(discriminant)) / vec3_len_squared(&ray->dir);
-	if (root < NEAR)
+	if (root < NEAR || root > FAR)
 		return (0);
 	return (_sphere_hitten(&object->data.sphere, ray, hit, root));
 }

@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 19:14:10 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/22 12:49:29 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/22 13:49:56 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	render_throw_rays(
 
 void	render_throw_ray(
 			t_render_unit *runit,
+			const t_ray *ray,
 			t_color *color
 			);
 

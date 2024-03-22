@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
+/*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:08:07 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 13:00:23 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/22 16:00:54 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ static t_scene	*_scene_load(
 {
 	(void)path;
 	scene->camera.fov = M_PI / 2.f;
+	scene->camera.position = (t_point3){0., 0., 8.};
+	scene->camera.orientation = (t_point3){0., 0., -1.};
 	scene->ambient.color = (t_color){52.f / 255.f, 91.f / 255.f, 235.f / 255.f};
 	scene->lights = (t_light_simple **)ft_calloc(3, sizeof(t_light_simple *));
 	if (scene->lights == NULL)
@@ -169,14 +171,14 @@ static t_scene	*_scene_load(
 		.data.sphere = (t_object_sphere){
 		.color = (t_color){0.f, 0.f, 0.f},
 		.origin = (t_point3){0.f, 0.f, 0.f},
-		.diameter = 0.f
+		.diameter = 4.f
 	}};
 	*scene->objects[1] = (t_object){
 		.type = OT_SPHERE,
 		.data.sphere = (t_object_sphere){
-		.color = (t_color){0.f, 0.f, 0.f},
-		.origin = (t_point3){0.f, 0.f, 0.f},
-		.diameter = 0.f
+		.color = (t_color){0.f, 10.f, 5.f},
+		.origin = (t_point3){5.f, 0.f, 0.f},
+		.diameter = 10,
 	}};
 	return (scene);
 }

@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 11:16:57 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/22 11:49:17 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/22 16:02:18 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ void	render_init(
 			t_framebuffer *fb
 			)
 {
-	const float		vh = 2 * tan(scene->camera.fov);
-	const float		vw = vh * (fb->line_len / fb->height);
+	const float		vh = 2 * tan(scene->camera.fov / 2);
+	const float		vw = vh * (((fb->line_len * 8)
+				/ fb->bits_per_pixel) / (float)fb->height);
 	const t_vector3	w = scene->camera.orientation;
 	t_vector3		vu;
 	t_vector3		vv;
@@ -53,12 +54,15 @@ void	render_init(
 	vec3_normalize(&runit->u, vec3_cross(&runit->u, &runit->u, &w));
 	vec3_normalize(&runit->v, vec3_cross(&runit->v, &w, &runit->u));
 	vec3_mul(&vu, &runit->u, vw);
-	vec3_mul(&vv, &runit->v, vh);
-	vec3_div(&runit->u, &vu, fb->line_len);
+	vec3_mul(&vv, &runit->v, -vh);
+	vec3_div(&runit->u, &vu, (fb->line_len * 8) / fb->bits_per_pixel);
 	vec3_div(&runit->v, &vv, fb->height);
+	(vec3_div(&vu, &vu, 2.0), vec3_div(&vv, &vv, 2.0));
+	vec3_add(&vu, &vu, &vv);
+	vec3_add(&runit->pixel00, &scene->camera.position, &w);
+	vec3_sub(&runit->pixel00, &runit->pixel00, &vu);
 	vec3_div(&vu, &runit->u, 2.0);
 	vec3_div(&vv, &runit->v, 2.0);
 	vec3_add(&vu, &vu, &vv);
-	vec3_add(&runit->pixel00, &scene->camera.position, &w);
 	vec3_sub(&runit->pixel00, &runit->pixel00, &vu);
 }
