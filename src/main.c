@@ -148,18 +148,16 @@ static t_scene	*_scene_load(
 	*scene->objects[0] = (t_object){
 		.type = OT_SPHERE,
 		.data.sphere = (t_object_sphere){
-			.color = (t_color){0.f, 0.f, 0.f},
-			.origin = (t_point3){0.f, 0.f, 0.f},
-			.diameter = 0.f
-		}
-	};
+		.color = (t_color){0.f, 0.f, 0.f},
+		.origin = (t_point3){0.f, 0.f, 0.f},
+		.diameter = 0.f
+	}};
 	*scene->objects[1] = (t_object){
 		.type = OT_SPHERE,
 		.data.sphere = (t_object_sphere){
-			.color = (t_color){0.f, 0.f, 0.f},
-			.origin = (t_point3){0.f, 0.f, 0.f},
-			.diameter = 0.f
-		}
-	};
+		.color = (t_color){0.f, 0.f, 0.f},
+		.origin = (t_point3){0.f, 0.f, 0.f},
+		.diameter = 0.f
+	}};
 	return (scene);
 }
