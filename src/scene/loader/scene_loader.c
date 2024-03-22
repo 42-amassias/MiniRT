@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:41:44 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 09:43:01 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/22 13:43:36 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static char	**_tokenize(
 /*                                                                            */
 /* ************************************************************************** */
 
-t_scene	*load_scene(
+t_scene	*scene_load(
 			t_scene *scene,
 			const char *path
 			)
