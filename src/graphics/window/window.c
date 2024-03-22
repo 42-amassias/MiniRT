@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 11:12:10 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 11:52:08 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/22 11:57:47 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_window_ctx	*window_initialize(
 			&ctx->frame_buffer.bits_per_pixel,
 			&ctx->frame_buffer.line_len,
 			&ctx->frame_buffer.endian);
+	ctx->frame_buffer.height = WINDOW_DEFAULT_HEIGHT;
 	return (ctx);
 }
 
