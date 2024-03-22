@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   brightness.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ale-boud <ale-boud@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:13:46 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/22 18:06:09 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/22 22:46:08 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ void	_render_add_specular_brightness(
 {
 	t_light_simple	**lights;
 	float			ratio;
-	t_vector3		r;
-	t_vector3		tmp_v;
+	t_vector3		dir;
+	t_vector3		v;
 	t_color			tmp;
 
 	lights = runit->scene->lights;
@@ -89,9 +89,12 @@ void	_render_add_specular_brightness(
 	{
 		if (!scene_collision(runit->scene, &hit->p, &((*lights)->origin)))
 		{
-			vec3_reflect_by(&r, &hit->from_dir, &hit->normal);
-			vec3_normalize(&tmp_v, vec3_sub(&tmp_v, &runit->center, &hit->p));
-			ratio = pow(vec3_dot(&tmp_v, &r), 0.6);
+			dir = ((*lights)->origin);
+			vec3_normalize(&dir, vec3_sub(&dir, &hit->p, &dir));
+			vec3_reflect_by(&dir, &dir, &hit->normal);
+			v = runit->center;
+			ratio = pow(vec3_dot(&dir, vec3_normalize(&v,
+							vec3_sub(&v, &v, &hit->p))), 32.);
 			color_mul_scalar(&tmp, &(*lights)->color, ratio);
 			color_add(brightness, brightness, &tmp);
 		}
