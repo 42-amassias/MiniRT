@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:25:35 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/22 12:52:20 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/22 16:15:09 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,12 @@ int		scene_throw_ray(
 			t_scene *scene,
 			const t_ray *ray,
 			t_hit *hit_info);
+
+int		scene_collision(
+			t_scene *scene,
+			const t_point3 *p1,
+			const t_point3 *p2
+			);
 
 /**
  * @brief Cleans up all resources allocated to `scene`.

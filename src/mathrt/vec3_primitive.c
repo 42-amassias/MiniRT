@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 19:55:18 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/22 11:34:13 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/22 17:33:38 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,20 @@ t_vector3	*vec3_sub(
 	r->x = v1->x - v2->x;
 	r->y = v1->y - v2->y;
 	r->z = v1->z - v2->z;
+	return (r);
+}
+
+t_vector3	*vec3_normalize(
+				t_vector3 *r,
+				const t_vector3 *v
+				)
+{
+	const t_coord	len = vec3_len(v);
+
+	if (len == 0.0)
+		return (r);
+	r->x = v->x / len;
+	r->y = v->y / len;
+	r->z = v->z / len;
 	return (r);
 }

@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 19:57:33 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/22 11:59:27 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/22 17:37:16 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,6 @@ t_vector3	*vec3_cross(
 	return (r);
 }
 
-t_vector3	*vec3_normalize(
-				t_vector3 *r,
-				const t_vector3 *v
-				)
-{
-	const t_coord	len = vec3_len(v);
-
-	if (len == 0.0)
-		return (r);
-	r->x = v->x / len;
-	r->y = v->y / len;
-	r->z = v->z / len;
-	return (r);
-}
-
 t_coord	vec3_len_squared(
 			const t_vector3 *v
 			)
@@ -83,4 +68,16 @@ t_coord	vec3_len(
 			)
 {
 	return (sqrt(vec3_len_squared(v)));
+}
+
+t_vector3	*vec3_reflect_by(
+				t_vector3 *r,
+				const t_vector3 *v,
+				const t_vector3 *normal
+				)
+{
+	t_vector3	tmp;
+
+	vec3_mul(&tmp, normal, 2 * vec3_dot(v, normal));
+	return (vec3_sub(r, v, &tmp));
 }

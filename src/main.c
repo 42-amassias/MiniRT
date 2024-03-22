@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:08:07 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 16:00:54 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/22 17:48:11 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,23 +141,23 @@ static t_scene	*_scene_load(
 	scene->camera.fov = M_PI / 2.f;
 	scene->camera.position = (t_point3){0., 0., 8.};
 	scene->camera.orientation = (t_point3){0., 0., -1.};
-	scene->ambient.color = (t_color){52.f / 255.f, 91.f / 255.f, 235.f / 255.f};
+	scene->ambient.color = (t_color){9.f / 255.f, 9.f / 255.f, 9.f / 255.f};
 	scene->lights = (t_light_simple **)ft_calloc(3, sizeof(t_light_simple *));
 	if (scene->lights == NULL)
 		return (NULL);
 	scene->lights[0] = malloc(sizeof(t_light_simple));
-	scene->lights[1] = malloc(sizeof(t_light_simple));
-	if (scene->lights[0] == NULL || scene->lights[1] == NULL)
+	// scene->lights[1] = malloc(sizeof(t_light_simple));
+	if (scene->lights[0] == NULL)
 		return (free(scene->lights[0]), free(scene->lights[1]),
 			free(scene->lights), NULL);
 	*scene->lights[0] = (t_light_simple){
-		.color = (t_color){0.f, 0.f, 0.f},
-		.origin = (t_point3){0.f, 0.f, 0.f}
+		.color = (t_color){1.f, 1.f, 1.f},
+		.origin = (t_point3){0.f, 100.f, 8.f}
 	};
-	*scene->lights[1] = (t_light_simple){
-		.color = (t_color){0.f, 0.f, 0.f},
-		.origin = (t_point3){0.f, 0.f, 0.f}
-	};
+	// *scene->lights[1] = (t_light_simple){
+	// 	.color = (t_color){0.f, 0.f, 0.f},
+	// 	.origin = (t_point3){0.f, 0.f, 0.f}
+	// };
 	scene->objects = (t_object **)ft_calloc(3, sizeof(t_object *));
 	if (scene->objects == NULL)
 		return (free_list((void **)scene->lights), NULL);
@@ -169,14 +169,14 @@ static t_scene	*_scene_load(
 	*scene->objects[0] = (t_object){
 		.type = OT_SPHERE,
 		.data.sphere = (t_object_sphere){
-		.color = (t_color){0.f, 0.f, 0.f},
+		.color = (t_color){0.6f, 0.6f, 0.6f},
 		.origin = (t_point3){0.f, 0.f, 0.f},
 		.diameter = 4.f
 	}};
 	*scene->objects[1] = (t_object){
 		.type = OT_SPHERE,
 		.data.sphere = (t_object_sphere){
-		.color = (t_color){0.f, 10.f, 5.f},
+		.color = (t_color){0.2f, 0.6f, 0.4f},
 		.origin = (t_point3){5.f, 0.f, 0.f},
 		.diameter = 10,
 	}};

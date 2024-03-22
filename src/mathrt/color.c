@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   throw_ray.c                                        :+:      :+:    :+:   */
+/*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/22 12:51:08 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/22 16:47:00 by ale-boud         ###   ########.fr       */
+/*   Created: 2024/03/22 17:06:27 by ale-boud          #+#    #+#             */
+/*   Updated: 2024/03/22 17:08:44 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file throw_ray.c
+ * @file color.c
  * @author ale-boud (ale-boud@student.42lehavre.fr)
- * @brief Throw ray in the scene.
+ * @brief Color function.
  * @date 2024-03-22
  * @copyright Copyright (c) 2024
  */
 
 // ************************************************************************** //
 // *                                                                        * //
-// * Incluldes                                                              * //
+// * Includes                                                               * //
 // *                                                                        * //
 // ************************************************************************** //
 
-#include <stdlib.h>
-
-#include "scene.h"
+#include "mathrt.h"
 
 // ************************************************************************** //
 // *                                                                        * //
@@ -34,54 +32,44 @@
 // *                                                                        * //
 // ************************************************************************** //
 
-int	scene_throw_ray(
-		t_scene *scene,
-		const t_ray *ray,
-		t_hit *hit_info)
+t_color	*color_add(
+			t_color *r,
+			const t_color *c1,
+			const t_color *c2
+			)
 {
-	t_object	**obj;
-	t_hit		tmp_hit;
-	t_coord		min;
-	int			r;
-
-	min = FAR;
-	r = 0;
-	obj = scene->objects;
-	while (*obj != NULL)
-	{
-		if (g_object_vt[(*obj)->type].hitten(*obj, ray, &tmp_hit))
-		{
-			r = 1;
-			if (tmp_hit.t < min)
-			{
-				*hit_info = tmp_hit;
-				min = tmp_hit.t;
-			}
-		}
-		++obj;
-	}
+	*r = (t_color){
+		c1->r + c2->r,
+		c1->g + c2->g,
+		c1->b + c2->b,
+	};
 	return (r);
 }
 
-int	scene_collision(
-		t_scene *scene,
-		const t_point3 *p1,
-		const t_point3 *p2
-		)
+t_color	*color_mul_scalar(
+			t_color *r,
+			const t_color *c,
+			float scalar
+			)
 {
-	t_object	**obj;
-	t_hit		tmp_hit;
-	t_ray		ray;
+	*r = (t_color){
+		c->r * scalar,
+		c->g * scalar,
+		c->b * scalar,
+	};
+	return (r);
+}
 
-	ray.origin = *p1;
-	ray.dir = *p2;
-	vec3_normalize(&ray.dir, vec3_sub(&ray.dir, &ray.dir, p1));
-	obj = scene->objects;
-	while (*obj != NULL)
-	{
-		if (g_object_vt[(*obj)->type].hitten(*obj, &ray, &tmp_hit))
-			return (1);
-		++obj;
-	}
-	return (0);
+t_color	*color_mul(
+			t_color *r,
+			const t_color *c1,
+			const t_color *c2
+			)
+{
+	*r = (t_color){
+		c1->r * c2->r,
+		c1->g * c2->g,
+		c1->b * c2->b,
+	};
+	return (r);
 }

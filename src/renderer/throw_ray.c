@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 12:48:00 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/22 16:04:31 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/22 17:20:50 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,12 @@ void	render_throw_ray(
 			)
 {
 	t_hit	hit;
+	t_color	brightness;
 
 	*color = (t_color){0.f, 0.f, 0.f};
 	if (scene_throw_ray(runit->scene, ray, &hit))
 	{
-		*color = hit.color;
+		render_get_brightness(runit, &hit, &brightness);
+		color_mul(color, &hit.color, &brightness);
 	}
 }
