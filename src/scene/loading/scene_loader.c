@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:41:44 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/21 20:42:30 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/22 09:43:01 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 #include "mathrt.h"
 #include "scene.h"
+#include "utils.h"
 
 #include <fcntl.h>
 #include <libft.h>
@@ -111,14 +112,16 @@ static bool	_read_lines(
 				)
 {
 	char	*line;
+	char	*end;
 	t_list	*node;
 
 	*lines = NULL;
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (ft_strchr(line, '\n'))
-			*ft_strchr(line, '\n') = '\0';
+		end = ft_strchr(line, '\n');
+		if (end)
+			*end = '\0';
 		node = ft_lstnew(line);
 		if (node == NULL)
 			return (free(line), ft_lstclear(lines, free), true);
