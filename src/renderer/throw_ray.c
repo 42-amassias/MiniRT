@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   renderer.h                                         :+:      :+:    :+:   */
+/*   throw_ray.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 19:14:10 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/22 12:49:29 by ale-boud         ###   ########.fr       */
+/*   Created: 2024/03/22 12:48:00 by ale-boud          #+#    #+#             */
+/*   Updated: 2024/03/22 13:11:39 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file renderer.h
+ * @file throw_ray.c
  * @author ale-boud (ale-boud@student.42lehavre.fr)
- * @brief Renderer definition
- * @date 2024-03-21
+ * @brief Core of the ray tracer.
+ * @date 2024-03-22
  * @copyright Copyright (c) 2024
  */
-
-#ifndef RENDERER_H
-# define RENDERER_H
 
 // ************************************************************************** //
 // *                                                                        * //
@@ -27,61 +24,46 @@
 // *                                                                        * //
 // ************************************************************************** //
 
-# include "scene.h"
-# include "graphics/framebuffer.h"
+#include "renderer.h"
 
 // ************************************************************************** //
 // *                                                                        * //
-// * Structure definition                                                   * //
+// * Header function                                                        * //
 // *                                                                        * //
 // ************************************************************************** //
-
-typedef struct s_render_unit
-{
-	t_scene			*scene;
-	t_point3		pixel00;
-	t_vector3		u;
-	t_vector3		v;
-	t_point3		center;
-	t_framebuffer	*fb;
-}	t_render_unit;
-
-// ************************************************************************** //
-// *                                                                        * //
-// * Function definition                                                    * //
-// *                                                                        * //
-// ************************************************************************** //
-
-/**
- * @brief Renders the `scene` into the `buffer`.
- * @param fb The framebuffer to fill.
- * @param scene The scene to render.
- */
-void	render_scene(
-			t_scene *scene,
-			t_framebuffer *fb
-			);
-
-void	render_init(
-			t_render_unit *runit,
-			t_scene *scene,
-			t_framebuffer *fb
-			);
 
 void	render_throw_rays(
 			t_render_unit *runit
-			);
+			)
+{
+	int			x;
+	int			y;
+	t_vector3	v;
+	t_ray		ray;
+	t_color		color;
+
+	ray.origin = runit->center;
+	y = 0;
+	while (y < runit->fb->height)
+	{
+		x = 0;
+		while (x < runit->fb->line_len)
+		{
+			vec3_add(&ray.dir,
+				vec3_mul(&ray.dir, &runit->u, x),
+				vec3_mul(&v, &runit->v, y));
+			vec3_add(&ray.dir, &runit->pixel00, &ray.dir);
+			//render_throw_ray(runit, &color);
+			//render_put_color(runit, &color, x, y);
+			(void)(color);
+			fb_put_pixel(runit->fb, 0xFF00FFFF, x, y);
+			++x;
+		}
+		++y;
+	}
+}
 
 void	render_throw_ray(
 			t_render_unit *runit,
 			t_color *color
 			);
-
-void	render_put_color(
-			t_render_unit *runit,
-			const t_color *color,
-			int x,
-			int y
-			);
-
-#endif

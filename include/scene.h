@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
+/*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:25:35 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/22 09:02:02 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:52:20 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,13 @@ float	scene_hit_brightness(
 
 /**
  * @brief Throw a hit in the scene.
+ * @param scene the scene.
  * @param ray Ray to throw.
  * @param hit_info The hit info if there is a hit.
  * @return int != 0 if there is a hit.
  */
 int		scene_throw_ray(
+			t_scene *scene,
 			const t_ray *ray,
 			t_hit *hit_info);
 
