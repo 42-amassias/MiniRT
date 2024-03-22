@@ -85,4 +85,12 @@ int		scene_throw_ray(
 			const t_ray *ray,
 			t_hit *hit_info);
 
+/**
+ * @brief Cleans up all resources allocated to `scene`.
+ * @param scene The scene to cleanup.
+ */
+void	scene_cleanup(
+			t_scene *scene
+			);
+
 #endif
