@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:08:07 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 09:04:13 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/22 09:32:36 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scene.h"
+#include "minirt.h"
 
 #include <mlx.h>
 #include <stdio.h>
@@ -75,14 +75,14 @@ int	main(
 		char **argv
 		)
 {
-	static t_scene	scene = {0};
+	static t_minirt_ctx	ctx = {0};
 
 	g_pn = *argv;
 	if (argc < 2)
 		_quit_no_cleanup("Missing scene file.", STDERR_FILENO, 1);
 	if (argc > 2)
 		_quit_no_cleanup("Too many arguments.", STDERR_FILENO, 1);
-	if (_scene_load(&scene, argv[1]) == NULL)
+	if (_scene_load(&ctx.scene, argv[1]) == NULL)
 		_quit_no_cleanup("", STDERR_FILENO, 1);
 	scene_cleanup(&scene);
 	return (0);
