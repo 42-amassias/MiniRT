@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:08:07 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 09:32:36 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/22 09:56:45 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	main(
 		_quit_no_cleanup("Too many arguments.", STDERR_FILENO, 1);
 	if (_scene_load(&ctx.scene, argv[1]) == NULL)
 		_quit_no_cleanup("", STDERR_FILENO, 1);
-	scene_cleanup(&scene);
+	scene_cleanup(&ctx.scene);
 	return (0);
 }
 
