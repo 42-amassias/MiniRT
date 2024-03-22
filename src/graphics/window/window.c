@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 11:12:10 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 11:24:40 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/22 11:52:08 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	window_cleanup(
 	{
 		if (ctx->frame_buffer.img)
 			mlx_destroy_image(ctx->ctx, ctx->frame_buffer.img);
-		mlx_destroy_window(ctx->ctx, ctx->ctx);
+		mlx_destroy_window(ctx->ctx, ctx->win);
 	}
 	mlx_destroy_display(ctx->ctx);
 	free(ctx->ctx);
