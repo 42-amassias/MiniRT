@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:47:44 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 17:49:20 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/24 12:06:16 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@
 /* Header implementation                                                      */
 /*                                                                            */
 /* ************************************************************************** */
-
+#include <stdio.h>
+#include <unistd.h>
 char	*parser_point3(
 			char *str,
 			t_point3 *point
@@ -42,8 +43,5 @@ char	*parser_point3(
 	str = parser_get_float(str, &point->y);
 	if (str == NULL || *str++ != ',')
 		return (NULL);
-	str = parser_get_float(str, &point->z);
-	if (str == NULL || *str++ != ',')
-		return (NULL);
-	return (str);
+	return (parser_get_float(str, &point->z));
 }

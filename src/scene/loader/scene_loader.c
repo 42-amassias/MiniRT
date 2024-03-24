@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:41:44 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 18:06:33 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/24 13:06:38 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,12 @@ t_scene	*scene_load(
 	int		fd;
 	t_list	*lines;
 
+	scene->objects = (t_object **)ft_calloc(1, sizeof(t_object *));
+	if (scene->objects == NULL)
+		return (NULL);
+	scene->lights = (t_light_simple **)ft_calloc(1, sizeof(t_light_simple *));
+	if (scene->lights == NULL)
+		return (NULL);
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 		return (perror("EXEC"), NULL);
@@ -89,25 +95,63 @@ t_scene	*scene_load(
 	while (itr)
 	{
 		char	**tokens = _tokenize(itr->content);
-		char	*token;
 
-		(void)token;
-		size_t	i = ELEMENT__COUNT;
-		while (i--)
+		if (tokens[0] == NULL)
 		{
-			if (ft_strcmp(g_parsing_table[i].name, tokens[i]))
-				continue ;
-			// 1. Construct value buffer (iterate over g_parsing_table[i].associated_tokens)
-			// 2. If the table indicates that a token should be parsed, goto 3 else goto 8
-			// 3. If there is no remaining token on the input, throw error.
-			// 4. Parse token using table
-			// 5. If not at the end of the token, throw error
-			// 6. Accept token.
-			// 7. goto 2
-			// 8. If there are more tokens, throw error.
-			break ;
+			free_list((void **)tokens);
+			itr = itr->next;
+			continue ;
 		}
-
+		size_t	i = 0;
+		while (i < ELEMENT__COUNT && ft_strcmp(g_parsing_table[i].name, tokens[0]) != 0)
+			++i;
+		if (i == ELEMENT__COUNT)
+		{
+			dprintf(STDERR_FILENO, "Unknown element: %s\n", tokens[0]);
+			free_list((void **)tokens);
+			return (ft_lstclear(&lines, free), NULL);
+		}
+		// 1. Construct value buffer (iterate over g_parsing_table[i].associated_tokens)
+		// 2. If the table indicates that a token should be parsed, goto 3 else goto 8
+		// 3. If there is no remaining token on the input, throw error.
+		// 4. Parse token using table
+		// 5. If not at the end of the token, throw error
+		// 6. Accept token.
+		// 7. goto 2
+		// 8. If there are more tokens, throw error.
+		t_token	*token_data = (t_token *)ft_calloc(g_parsing_table[i].associated_tokens_count, sizeof(t_token));
+		if (token_data == NULL)
+			return (free_list((void **)tokens), ft_lstclear(&lines, free), NULL);
+		size_t	j = 0;
+		while (j < g_parsing_table[i].associated_tokens_count)
+		{
+			if (tokens[j + 1] == NULL)
+			{
+				dprintf(STDERR_FILENO, "Missing token for element %s.\n", tokens[0]);
+				return (free(token_data), free_list((void **)tokens), ft_lstclear(&lines, free), NULL);
+			}
+			char	*end;
+			if (g_parsing_table[i].associated_tokens[j] == TOKEN_FLOAT)
+				end = parser_get_float(tokens[j + 1], &token_data[j].fp);
+			else if (g_parsing_table[i].associated_tokens[j] == TOKEN_COLOR)
+				end = parser_color(tokens[j + 1], &token_data[j].color);
+			else if (g_parsing_table[i].associated_tokens[j] == TOKEN_POSITION)
+				end = parser_point3(tokens[j + 1], &token_data[j].position);
+			else
+				((void)0, ft_putendl_fd("Unreachable", STDERR_FILENO), exit(1));
+			if (end == NULL || *end)
+			{
+				dprintf(STDERR_FILENO, "%s --> %s\n", tokens[j + 1], end);
+				return (free(token_data), free_list((void **)tokens), ft_lstclear(&lines, free), NULL);
+			}
+			++j;
+		}
+		if (!g_parsing_table[i].acceptor(scene, token_data))
+		{
+			dprintf(STDERR_FILENO, "Did not accept: %s\n", (char *)itr->content);
+			return (free(token_data), free_list((void **)tokens), ft_lstclear(&lines, free), NULL);
+		}
+		free(token_data);
 		free_list((void **)tokens);
 		itr = itr->next;
 	}

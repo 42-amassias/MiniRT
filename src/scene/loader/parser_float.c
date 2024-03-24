@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 15:47:53 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 16:07:13 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/24 12:06:07 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*parser_get_float(
 	}
 	if (!has_int && !has_dec)
 		return (NULL);
-	while (i)
+	while (i--)
 		dec_part /= 10.f;
 	return (*v = sign * (*v + dec_part), str);
 }

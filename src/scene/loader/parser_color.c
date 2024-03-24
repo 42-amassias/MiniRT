@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:47:44 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 16:53:33 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/24 11:57:29 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*parser_color(
 	if (str == NULL || *str++ != ',')
 		return (NULL);
 	str = parser_get_unsigned_char(str, &b);
-	if (str == NULL || *str++ != ',')
+	if (str == NULL)
 		return (NULL);
 	color->r = (float)r / 255.f;
 	color->g = (float)g / 255.f;
