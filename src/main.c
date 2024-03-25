@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:08:07 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/24 12:57:27 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/25 10:31:13 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,10 @@ int	main(
 		_quit_no_cleanup("Too many arguments.", STDERR_FILENO, 1);
 	if (scene_load(&ctx.scene, argv[1]) == NULL)
 	{
-		printf("FINISH\n");
 		scene_cleanup(&ctx.scene);
 		_quit_no_cleanup("", STDERR_FILENO, 1);
 	}
-	printf("FINISH\n");
-	printf("Scene loaded !\n");
-	
+
 	printf("CAMERA:\n");
 	printf("\t- %-15s %f\n", "fov (rad):", scene->camera.fov);
 	printf("\t- %-15s\n", "position:");
