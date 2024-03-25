@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:55:20 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 17:52:39 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/25 10:27:39 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,16 @@
 
 /* ************************************************************************** */
 /*                                                                            */
+/* Defines                                                                    */
+/*                                                                            */
+/* ************************************************************************** */
+
+#define VIEW 0
+#define ORIENTATION 1
+#define FOV 2
+
+/* ************************************************************************** */
+/*                                                                            */
 /* Header implementation                                                      */
 /*                                                                            */
 /* ************************************************************************** */
@@ -36,10 +46,10 @@ bool	element_acceptor__camera(
 			t_token tokens[]
 			)
 {
-	if (tokens[2].fp < 0.f || tokens[2].fp > 180.f)
+	if (tokens[FOV].fp < 0.f || tokens[FOV].fp > 180.f)
 		return (false);
-	scene->camera.position = tokens[0].position;
-	scene->camera.orientation = tokens[1].position;
-	scene->camera.fov = M_PI * tokens[2].fp / 180.f;
+	scene->camera.position = tokens[VIEW].position;
+	scene->camera.orientation = tokens[ORIENTATION].position;
+	scene->camera.fov = M_PI * tokens[FOV].fp / 180.f;
 	return (true);
 }
