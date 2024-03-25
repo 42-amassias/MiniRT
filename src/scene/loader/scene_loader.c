@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:41:44 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/25 10:26:47 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/25 10:28:35 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ t_scene	*scene_load(
 	while (itr)
 	{
 		char	**tokens = _tokenize(itr->content);
-
+		if (tokens == NULL)
+			return (ft_lstclear(&lines, free), NULL);
 		if (tokens[0] == NULL)
 		{
 			free_list((void **)tokens);
