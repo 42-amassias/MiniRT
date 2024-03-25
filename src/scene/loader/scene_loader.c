@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:41:44 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/24 13:06:38 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/25 10:26:47 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,9 +201,9 @@ static char	**_tokenize(
 	char	*tmp;
 
 	tokens = ft_split(line, ' ');
-	itr = tokens;
 	if (tokens == NULL || tokens[0] == NULL)
 		return (tokens);
+	itr = tokens;
 	while (itr[1] != NULL)
 	{
 		if (ft_strchr(itr[0], '\0')[-1] != ',' && itr[1][0] != ',' && ++itr)
@@ -211,13 +211,13 @@ static char	**_tokenize(
 		tmp = ft_strjoin(itr[0], itr[1]);
 		if (tmp == NULL)
 			return (free_list((void **)tokens), NULL);
-		(free(itr[0]), itr2 = itr);
-		while (itr2[1])
+		(free(itr[0]), free(itr[1]), itr2 = itr + 2);
+		while (*itr2)
 		{
-			itr2[0] = itr2[1];
+			itr2[-1] = *itr2;
 			++itr2;
 		}
-		((void)(0), itr2[0] = NULL, itr[0] = tmp);
+		((void)(0), itr2[-1] = NULL, itr[0] = tmp);
 	}
 	return (tokens);
 }
