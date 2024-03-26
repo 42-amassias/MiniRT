@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:41:44 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/26 19:39:07 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/26 19:45:12 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,11 +178,13 @@ static bool	_parse_associated_tokens(
 		}
 		parser = g_token_parser[element_descriptor->associated_tokens[j]];
 		end = parser(tokens[j + 1], &token_data[j]);
-		if (end == NULL || *end)
+		if (end == NULL || (*end && *end != '#'))
 			return (true);
 		++j;
 	}
-	return (false);
+	if (tokens[j + 1] == NULL || tokens[j + 1][0] == '#')
+		return (false);
+	return (true);
 }
 
 static bool	_parse_line(
