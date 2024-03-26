@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_table.c                                    :+:      :+:    :+:   */
+/*   parsing_tables.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:12:05 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 16:46:41 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:31:42 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-t_element_descriptor	g_parsing_table[] = {
+t_primitive_parser			g_token_parser[TOKEN__COUNT] = {
+[TOKEN_FLOAT] = (t_primitive_parser)parser_next_float,
+[TOKEN_COLOR] = (t_primitive_parser)parser_next_color,
+[TOKEN_POSITION] = (t_primitive_parser)parser_next_point3,
+};
+
+t_element_descriptor		g_parsing_table[ELEMENT__COUNT] = {
 [ELEMENT_AMBIENT_LIGHT] = {
 	.name = "A",
 	.associated_tokens_count = 2,

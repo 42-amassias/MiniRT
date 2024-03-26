@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   read_lines_from_fd.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/22 08:25:27 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/26 17:30:13 by amassias         ###   ########.fr       */
+/*   Created: 2024/03/26 17:29:05 by amassias          #+#    #+#             */
+/*   Updated: 2024/03/26 17:29:49 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file utils.h
+ * @file read_lines_from_fd.c
  * @author Antoine Massias (amassias@student.42lehavre.fr)
- * @date 2024-03-22
+ * @date 2024-03-26
  * @copyright Copyright (c) 2024
  */
-
-#ifndef UTILS_H
-# define UTILS_H
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -26,47 +23,35 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "utils/dynamic_array.h"
-
-# include <libft.h>
-# include <stdbool.h>
+#include "utils.h"
 
 /* ************************************************************************** */
 /*                                                                            */
-/* Header prototypes                                                          */
+/* Header implementation                                                      */
 /*                                                                            */
 /* ************************************************************************** */
 
-/**
- * @brief Reads all the lines of `fd` and registers them in `*lines`.
- * @param fd The file descriptor from which to read the lines.
- * @param lines A pointer to a linked list.
- * @return `true` if an error occured, `false` otherwise.
- */
 bool	read_lines_from_fd(
 			int fd,
 			t_list **lines
-			);
+			)
+{
+	char	*line;
+	char	*end;
+	t_list	*node;
 
-/**
- * @brief Appends `data` to `list`.
- * @param list A list.
- * @param data The element to append.
- * @return The newly allocated list or NULL it an allocation failed.
- */
-void	**list_append(
-			void **list,
-			void *data
-			);
-
-/**
- * @brief Frees all the resources allocated to `ptr`.
- * `ptr` should be a `NULL` terminated array and every one of its cells should
- * have been `malloc`'d. If `ptr` is `NULL`, does nothing.
- * @param ptr The list to free.
- */
-void	free_list(
-			void **ptr
-			);
-
-#endif
+	*lines = NULL;
+	line = get_next_line(fd);
+	while (line)
+	{
+		end = ft_strchr(line, '\n');
+		if (end)
+			*end = '\0';
+		node = ft_lstnew(line);
+		if (node == NULL)
+			return (free(line), ft_lstclear(lines, free), true);
+		ft_lstadd_back(lines, node);
+		line = get_next_line(fd);
+	}
+	return (false);
+}

@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:56:44 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/26 15:56:38 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:31:10 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ typedef union u_token
 	t_point3	position;
 }	t_token;
 
-typedef bool				(*t_element_acceptor)(t_scene *, t_token[]);
+typedef bool					(*t_element_acceptor)(t_scene *, t_token[]);
+typedef char					*(*t_primitive_parser)(const char *, void *);
 
 typedef struct s_element_descriptor
 {
@@ -93,7 +94,8 @@ typedef struct s_element_descriptor
 /*                                                                            */
 /* ************************************************************************** */
 
-extern t_element_descriptor	g_parsing_table[ELEMENT__COUNT];
+extern t_primitive_parser		g_token_parser[TOKEN__COUNT];
+extern t_element_descriptor		g_parsing_table[ELEMENT__COUNT];
 
 /* ************************************************************************** */
 /*                                                                            */

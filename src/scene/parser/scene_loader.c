@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:41:44 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/26 15:59:41 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:31:31 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,24 @@ size_t	g_current_line;
 /*                                                                            */
 /* ************************************************************************** */
 
-/**
- * @brief Reads all the lines of `fd` and registers them in `*lines`.
- * @param fd The file descriptor from which to read the lines.
- * @param lines A pointer to a linked list.
- * @return `true` if an error occured, `false` otherwise.
- */
-static bool	_read_lines(
-				int fd,
-				t_list **lines
-				);
+static char					**_tokenize(
+								const char *line
+								);
 
-static char	**_tokenize(
-				char *line
-				);
+static t_element_descriptor	*_get_element_descripror(
+								const char *id
+								);
+
+static bool					_parse_associated_tokens(
+								t_element_descriptor *element_descriptor,
+								t_token *token_data,
+								char **tokens
+								);
+
+static bool					_parse_line(
+								t_scene *scene,
+								const char *line
+								);
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -75,8 +79,9 @@ t_scene	*scene_load(
 			const char *path
 			)
 {
-	int		fd;
-	t_list	*lines;
+	int						fd;
+	t_list					*lines;
+	t_list					*itr;
 
 	scene->objects = (t_object **)ft_calloc(1, sizeof(t_object *));
 	if (scene->objects == NULL)
@@ -87,76 +92,16 @@ t_scene	*scene_load(
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 		return (perror(path), NULL);
-	if (_read_lines(fd, &lines))
+	if (read_lines_from_fd(fd, &lines))
 		return (close(fd), NULL);
 	close(fd);
-	//-----
-	t_list	*itr = lines;
+	itr = lines;
 	while (itr)
 	{
-		char	**tokens = _tokenize(itr->content);
-		if (tokens == NULL)
+		if (_parse_line(scene, (const char *)itr->content))
 			return (ft_lstclear(&lines, free), NULL);
-		if (tokens[0] == NULL)
-		{
-			free_list((void **)tokens);
-			itr = itr->next;
-			continue ;
-		}
-		size_t	i = 0;
-		while (i < ELEMENT__COUNT && ft_strcmp(g_parsing_table[i].name, tokens[0]) != 0)
-			++i;
-		if (i == ELEMENT__COUNT)
-		{
-			dprintf(STDERR_FILENO, "Unknown element: %s\n", tokens[0]);
-			free_list((void **)tokens);
-			return (ft_lstclear(&lines, free), NULL);
-		}
-		// 1. Construct value buffer (iterate over g_parsing_table[i].associated_tokens)
-		// 2. If the table indicates that a token should be parsed, goto 3 else goto 8
-		// 3. If there is no remaining token on the input, throw error.
-		// 4. Parse token using table
-		// 5. If not at the end of the token, throw error
-		// 6. Accept token.
-		// 7. goto 2
-		// 8. If there are more tokens, throw error.
-		t_token	*token_data = (t_token *)ft_calloc(g_parsing_table[i].associated_tokens_count, sizeof(t_token));
-		if (token_data == NULL)
-			return (free_list((void **)tokens), ft_lstclear(&lines, free), NULL);
-		size_t	j = 0;
-		while (j < g_parsing_table[i].associated_tokens_count)
-		{
-			if (tokens[j + 1] == NULL)
-			{
-				dprintf(STDERR_FILENO, "Missing token for element %s.\n", tokens[0]);
-				return (free(token_data), free_list((void **)tokens), ft_lstclear(&lines, free), NULL);
-			}
-			char	*end;
-			if (g_parsing_table[i].associated_tokens[j] == TOKEN_FLOAT)
-				end = parser_next_float(tokens[j + 1], &token_data[j].fp);
-			else if (g_parsing_table[i].associated_tokens[j] == TOKEN_COLOR)
-				end = parser_next_color(tokens[j + 1], &token_data[j].color);
-			else if (g_parsing_table[i].associated_tokens[j] == TOKEN_POSITION)
-				end = parser_next_point3(tokens[j + 1], &token_data[j].position);
-			else
-				((void)0, ft_putendl_fd("Unreachable", STDERR_FILENO), exit(1));
-			if (end == NULL || *end)
-			{
-				dprintf(STDERR_FILENO, "%s --> %s\n", tokens[j + 1], end);
-				return (free(token_data), free_list((void **)tokens), ft_lstclear(&lines, free), NULL);
-			}
-			++j;
-		}
-		if (!g_parsing_table[i].acceptor(scene, token_data))
-		{
-			dprintf(STDERR_FILENO, "Did not accept: %s\n", (char *)itr->content);
-			return (free(token_data), free_list((void **)tokens), ft_lstclear(&lines, free), NULL);
-		}
-		free(token_data);
-		free_list((void **)tokens);
 		itr = itr->next;
 	}
-	//-----
 	ft_lstclear(&lines, free);
 	return (scene);
 }
@@ -167,33 +112,8 @@ t_scene	*scene_load(
 /*                                                                            */
 /* ************************************************************************** */
 
-static bool	_read_lines(
-				int fd,
-				t_list **lines
-				)
-{
-	char	*line;
-	char	*end;
-	t_list	*node;
-
-	*lines = NULL;
-	line = get_next_line(fd);
-	while (line)
-	{
-		end = ft_strchr(line, '\n');
-		if (end)
-			*end = '\0';
-		node = ft_lstnew(line);
-		if (node == NULL)
-			return (free(line), ft_lstclear(lines, free), true);
-		ft_lstadd_back(lines, node);
-		line = get_next_line(fd);
-	}
-	return (false);
-}
-
 static char	**_tokenize(
-				char *line
+				const char *line
 				)
 {
 	char	**tokens;
@@ -221,4 +141,76 @@ static char	**_tokenize(
 		((void)(0), itr2[-1] = NULL, itr[0] = tmp);
 	}
 	return (tokens);
+}
+
+static t_element_descriptor	*_get_element_descripror(
+								const char *id
+								)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < ELEMENT__COUNT)
+		if (ft_strcmp(g_parsing_table[i++].name, id) == 0)
+			return (&g_parsing_table[i - 1]);
+	return (NULL);
+}
+
+static bool	_parse_associated_tokens(
+				t_element_descriptor *element_descriptor,
+				t_token *token_data,
+				char **tokens
+				)
+{
+	const char			*element_name = tokens[0];
+	const char			*end;
+	t_primitive_parser	parser;
+	size_t				j;
+
+	j = 0;
+	while (j < element_descriptor->associated_tokens_count)
+	{
+		if (tokens[j + 1] == NULL)
+		{
+			dprintf(STDERR_FILENO, "Missing token for element %s.\n",
+				element_name);
+			return (true);
+		}
+		parser = g_token_parser[element_descriptor->associated_tokens[j]];
+		end = parser(tokens[j + 1], &token_data[j]);
+		if (end == NULL || *end)
+			return (true);
+		++j;
+	}
+	return (false);
+}
+
+static bool	_parse_line(
+				t_scene *scene,
+				const char *line
+				)
+{
+	char					**tokens;
+	t_element_descriptor	*element_descriptor;
+	t_token					token_data[MAX_TOKEN_COUNT];
+
+	tokens = _tokenize(line);
+	if (tokens == NULL)
+		return (true);
+	if (tokens[0] == NULL)
+		return (free_list((void **)tokens), false);
+	element_descriptor = _get_element_descripror(tokens[0]);
+	if (element_descriptor == NULL)
+	{
+		dprintf(STDERR_FILENO, "Unknown element: %s\n", tokens[0]);
+		return (free_list((void **)tokens), true);
+	}
+	if (_parse_associated_tokens(element_descriptor, token_data, tokens))
+		return (free_list((void **)tokens), true);
+	if (!element_descriptor->acceptor(scene, token_data))
+	{
+		dprintf(STDERR_FILENO, "Did not accept: %s\n", line);
+		return (free_list((void **)tokens), true);
+	}
+	return (free_list((void **)tokens), false);
 }
