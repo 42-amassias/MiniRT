@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:41:44 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/26 17:31:31 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/26 18:57:44 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,10 @@ static bool	_parse_line(
 		return (free_list((void **)tokens), true);
 	}
 	if (_parse_associated_tokens(element_descriptor, token_data, tokens))
+	{
+		dprintf(STDERR_FILENO, "Could not finish parsing for line: %s\n", line);
 		return (free_list((void **)tokens), true);
+	}
 	if (!element_descriptor->acceptor(scene, token_data))
 	{
 		dprintf(STDERR_FILENO, "Did not accept: %s\n", line);
