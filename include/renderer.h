@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 19:14:10 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/22 17:58:12 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/26 19:53:16 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,14 @@ void	render_get_brightness(
 void	_render_add_diffuse_brightness(
 			t_render_unit *runit,
 			const t_hit *hit,
+			t_light_simple *light,
 			t_color *brightness
 			);
 
 void	_render_add_specular_brightness(
 			t_render_unit *runit,
 			const t_hit *hit,
+			t_light_simple *light,
 			t_color *brightness
 			);
 

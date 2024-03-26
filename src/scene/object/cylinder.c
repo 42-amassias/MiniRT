@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 08:34:21 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/26 18:37:51 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/26 19:52:18 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,20 @@
 // *                                                                        * //
 // ************************************************************************** //
 
-static void		_cylinder_hitten_compute(
+static void		_cylinder_hit_compute(
 					t_object_cylinder *cylinder,
 					const t_ray *ray,
 					t_cylinder_vars *vars
 					);
 
-static int		_cylinder_hitten_compute_height(
+static int		_cylinder_hit_compute_height(
 					t_object_cylinder *cylinder,
 					const t_ray *ray,
 					t_hit *hit,
 					t_coord t
 					);
 
-static int		_cylinder_hitten_create_hit(
+static int		_cylinder_hit_create_hit(
 					t_object_cylinder *cylinder,
 					const t_ray *ray,
 					t_hit *hit,
@@ -57,7 +57,7 @@ static int		_cylinder_hitten_create_hit(
 /*                                                                            */
 /* ************************************************************************** */
 
-int	cylinder_hitten(
+int	cylinder_hit(
 		t_object *object,
 		const t_ray *ray,
 		t_hit *hit
@@ -66,10 +66,10 @@ int	cylinder_hitten(
 	t_object_cylinder *const	cylinder = &object->data.cylinder;
 	t_cylinder_vars				vars;
 
-	_cylinder_hitten_compute(cylinder, ray, &vars);
+	_cylinder_hit_compute(cylinder, ray, &vars);
 	if (vars.d < 0.)
 		return (0);
-	return (_cylinder_hitten_create_hit(cylinder, ray, hit, &vars));
+	return (_cylinder_hit_create_hit(cylinder, ray, hit, &vars));
 }
 
 t_color	cylinder_get_color(
@@ -87,7 +87,7 @@ t_color	cylinder_get_color(
 // *                                                                        * //
 // ************************************************************************** //
 
-static void	_cylinder_hitten_compute(
+static void	_cylinder_hit_compute(
 				t_object_cylinder *cylinder,
 				const t_ray *ray,
 				t_cylinder_vars *vars
@@ -114,7 +114,7 @@ static void	_cylinder_hitten_compute(
 	vars->d_sqrt = sqrt(vars->d);
 }
 
-static int	_cylinder_hitten_compute_height(
+static int	_cylinder_hit_compute_height(
 				t_object_cylinder *cylinder,
 				const t_ray *ray,
 				t_hit *hit,
@@ -129,7 +129,7 @@ static int	_cylinder_hitten_compute_height(
 	ray_at(ray, &p, t);
 	vec3_sub(&o_diff, &cylinder->origin, &p);
 	dist_to_point = vec3_dot(&o_diff, &cylinder->axis);
-	if (fabs(dist_to_point) > cylinder->height / 2.)
+	if (fabs(dist_to_point) > cylinder->height / 2)
 		return (0);
 	cyl_ray.origin = cylinder->origin;
 	cyl_ray.dir = cylinder->axis;
@@ -142,7 +142,7 @@ static int	_cylinder_hitten_compute_height(
 	return (1);
 }
 
-static int	_cylinder_hitten_create_hit(
+static int	_cylinder_hit_create_hit(
 				t_object_cylinder *cylinder,
 				const t_ray *ray,
 				t_hit *hit,
@@ -153,11 +153,11 @@ static int	_cylinder_hitten_create_hit(
 
 	t = (-vars->b - vars->d_sqrt) / (vars->a * 2.);
 	if (t >= NEAR && t <= FAR
-		&& _cylinder_hitten_compute_height(cylinder, ray, hit, t))
+		&& _cylinder_hit_compute_height(cylinder, ray, hit, t))
 		return (1);
 	t = (-vars->b + vars->d_sqrt) / (vars->a * 2.);
 	if (t >= NEAR && t <= FAR
-		&& _cylinder_hitten_compute_height(cylinder, ray, hit, t))
+		&& _cylinder_hit_compute_height(cylinder, ray, hit, t))
 		return (vec3_mul(&hit->normal, &hit->normal, -1), 1);
 	return (0);
 }

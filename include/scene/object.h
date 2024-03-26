@@ -79,7 +79,7 @@ typedef struct s_object
 
 typedef struct s_object_vt
 {
-	int		(*hitten)(t_object *object, const t_ray *ray, t_hit *hit);
+	int		(*hit)(t_object *object, const t_ray *ray, t_hit *hit);
 	t_color	(*get_color)(t_object * object);
 }	t_object_vt;
 
@@ -104,7 +104,7 @@ typedef struct s_cylinder_vars
 // *                                                                        * //
 // ************************************************************************** //
 
-int		sphere_hitten(
+int		sphere_hit(
 			t_object *object,
 			const t_ray *ray,
 			t_hit *hit
@@ -120,7 +120,7 @@ t_color	sphere_get_color(
 // *                                                                        * //
 // ************************************************************************** //
 
-int		plane_hitten(
+int		plane_hit(
 			t_object *object,
 			const t_ray *ray,
 			t_hit *hit
@@ -136,7 +136,7 @@ t_color	plane_get_color(
 // *                                                                        * //
 // ************************************************************************** //
 
-int		cylinder_hitten(
+int		cylinder_hit(
 			t_object *object,
 			const t_ray *ray,
 			t_hit *hit

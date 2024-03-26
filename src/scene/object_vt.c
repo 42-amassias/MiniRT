@@ -33,7 +33,7 @@
 // ************************************************************************** //
 
 const t_object_vt	g_object_vt[OT__COUNT] = {
-[OT_SPHERE] = {sphere_hitten, sphere_get_color},
-[OT_PLANE] = {plane_hitten, plane_get_color},
-[OT_CYLINDER] = {cylinder_hitten, cylinder_get_color},
+[OT_SPHERE] = {sphere_hit, sphere_get_color},
+[OT_PLANE] = {plane_hit, plane_get_color},
+[OT_CYLINDER] = {cylinder_hit, cylinder_get_color},
 };

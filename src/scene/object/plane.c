@@ -31,7 +31,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-int	plane_hitten(
+int	plane_hit(
 		t_object *object,
 		const t_ray *ray,
 		t_hit *hit

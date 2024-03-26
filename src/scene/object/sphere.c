@@ -36,7 +36,7 @@
 // *                                                                        * //
 // ************************************************************************** //
 
-static int	_sphere_hitten(
+static int	_sphere_hit(
 				t_object_sphere *sphere,
 				const t_ray *ray,
 				t_hit *hit,
@@ -49,7 +49,7 @@ static int	_sphere_hitten(
 // *                                                                        * //
 // ************************************************************************** //
 
-int	sphere_hitten(
+int	sphere_hit(
 		t_object *object,
 		const t_ray *ray,
 		t_hit *hit
@@ -72,7 +72,7 @@ int	sphere_hitten(
 		root = (-half_b + sqrt(discriminant)) / vec3_len_squared(&ray->dir);
 	if (root < NEAR || root > FAR)
 		return (0);
-	return (_sphere_hitten(&object->data.sphere, ray, hit, root));
+	return (_sphere_hit(&object->data.sphere, ray, hit, root));
 }
 
 t_color	sphere_get_color(
@@ -90,7 +90,7 @@ t_color	sphere_get_color(
 // *                                                                        * //
 // ************************************************************************** //
 
-static int	_sphere_hitten(
+static int	_sphere_hit(
 				t_object_sphere *sphere,
 				const t_ray *ray,
 				t_hit *hit,

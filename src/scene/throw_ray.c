@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 12:51:08 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/22 16:47:00 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/26 19:57:35 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 // ************************************************************************** //
 // *                                                                        * //
-// * Incluldes                                                              * //
+// * Includes                                                               * //
 // *                                                                        * //
 // ************************************************************************** //
 
@@ -49,7 +49,7 @@ int	scene_throw_ray(
 	obj = scene->objects;
 	while (*obj != NULL)
 	{
-		if (g_object_vt[(*obj)->type].hitten(*obj, ray, &tmp_hit))
+		if (g_object_vt[(*obj)->type].hit(*obj, ray, &tmp_hit))
 		{
 			r = 1;
 			if (tmp_hit.t < min)
@@ -71,15 +71,19 @@ int	scene_collision(
 {
 	t_object	**obj;
 	t_hit		tmp_hit;
+	t_coord		dist;
 	t_ray		ray;
 
 	ray.origin = *p1;
 	ray.dir = *p2;
-	vec3_normalize(&ray.dir, vec3_sub(&ray.dir, &ray.dir, p1));
+	vec3_sub(&ray.dir, &ray.dir, p1);
+	dist = vec3_len(&ray.dir);
+	vec3_normalize(&ray.dir, &ray.dir);
 	obj = scene->objects;
 	while (*obj != NULL)
 	{
-		if (g_object_vt[(*obj)->type].hitten(*obj, &ray, &tmp_hit))
+		if (g_object_vt[(*obj)->type].hit(*obj, &ray, &tmp_hit)
+			&& tmp_hit.t < dist)
 			return (1);
 		++obj;
 	}
