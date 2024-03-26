@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 12:20:48 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 17:52:23 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/26 19:25:56 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,6 @@ static int	_loop(
 				t_window_ctx *ctx
 				)
 {
-	bool (*const _update)(void *) = ctx->__hooks[__HOOK__UPDATE].fun;
-	bool (*const _render)(void *) = ctx->__hooks[__HOOK__RENDER].fun;
-	if (ctx->__hooks[__HOOK__UPDATE].fun)
-		if (_update(ctx->__hooks[__HOOK__UPDATE].ptr))
-			mlx_loop_end(ctx->ctx);
-	if (ctx->__hooks[__HOOK__RENDER].fun)
-		if (_render(ctx->__hooks[__HOOK__RENDER].ptr))
-			mlx_loop_end(ctx->ctx);
 	mlx_put_image_to_window(ctx->ctx, ctx->win, ctx->frame_buffer.img, 0, 0);
 	return (0);
 }

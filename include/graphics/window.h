@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 09:23:54 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 13:01:02 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/26 19:26:13 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@
 enum e_hook
 {
 	__HOOK__KEY,
-	__HOOK__UPDATE,
-	__HOOK__RENDER,
 	__HOOK___COUNT
 };
 
@@ -60,8 +58,6 @@ enum e_hook
 /*                                                                            */
 /* ************************************************************************** */
 
-typedef bool	(*t_update_hook)(void *);
-typedef bool	(*t_render_hook)(void *);
 typedef bool	(*t_key_hook)(int, void *);
 
 /* ************************************************************************** */
@@ -104,18 +100,6 @@ void			__window_set_hook(
 void			window_set_key_hook(
 					t_window_ctx *ctx,
 					t_key_hook hook,
-					void *ptr
-					);
-
-void			window_set_update_hook(
-					t_window_ctx *ctx,
-					t_update_hook hook,
-					void *ptr
-					);
-
-void			window_set_render_hook(
-					t_window_ctx *ctx,
-					t_render_hook hook,
 					void *ptr
 					);
 
