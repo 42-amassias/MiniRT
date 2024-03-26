@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:55:20 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/25 10:27:39 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:46:19 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ bool	element_acceptor__camera(
 	scene->camera.position = tokens[VIEW].position;
 	scene->camera.orientation = tokens[ORIENTATION].position;
 	scene->camera.fov = M_PI * tokens[FOV].fp / 180.f;
+	vec3_normalize(&scene->camera.orientation, &scene->camera.orientation);
 	return (true);
 }

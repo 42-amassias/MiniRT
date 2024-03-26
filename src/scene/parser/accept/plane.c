@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:55:20 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 17:52:47 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:48:01 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ bool	element_acceptor__plane(
 	object->data.plane.origin = tokens[ORIGIN].position;
 	object->data.plane.normal = tokens[NORMAL].position;
 	object->data.plane.color = tokens[COLOR].color;
+	vec3_normalize(&object->data.plane.normal, &object->data.plane.normal);
 	objects = (t_object **)list_append((void **)scene->objects, object);
 	if (objects == NULL)
 		return (free(object), false);
