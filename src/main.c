@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ale-boud <ale-boud@student.42lehavre.fr    +#+  +:+       +#+        */
+/*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:08:07 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/26 15:02:48 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:34:05 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,6 @@
 
 /* ************************************************************************** */
 /*                                                                            */
-/* Global variables                                                           */
-/*                                                                            */
-/* ************************************************************************** */
-
-const char	*g_pn;
-
-/* ************************************************************************** */
-/*                                                                            */
 /* Helper protoypes                                                           */
 /*                                                                            */
 /* ************************************************************************** */
@@ -59,11 +51,6 @@ noreturn static void	_quit_no_cleanup(
 							int fd,
 							int code
 							);
-
-// static t_scene			*_scene_load(
-// 							t_scene *scene,
-// 							const char *path
-// 							);
 
 static bool				_quit_on_q(
 							int keycode,
@@ -231,55 +218,6 @@ noreturn static void	_quit_no_cleanup(
 	_show_help(fd);
 	exit(code);
 }
-
-// static t_scene	*_scene_load(
-// 					t_scene *scene,
-// 					const char *path
-// 					)
-// {
-// 	(void)path;
-// 	scene->camera.fov = M_PI / 2.f;
-// 	scene->ambient.color = (t_color){52.f / 255.f, 91.f / 255.f, 235.f / 255.f};
-// 	scene->lights = (t_light_simple **)ft_calloc(3, sizeof(t_light_simple *));
-// 	if (scene->lights == NULL)
-// 		return (NULL);
-// 	scene->lights[0] = malloc(sizeof(t_light_simple));
-// 	scene->lights[1] = malloc(sizeof(t_light_simple));
-// 	if (scene->lights[0] == NULL || scene->lights[1] == NULL)
-// 		return (free(scene->lights[0]), free(scene->lights[1]),
-// 			free(scene->lights), NULL);
-// 	*scene->lights[0] = (t_light_simple){
-// 		.color = (t_color){0.f, 0.f, 0.f},
-// 		.origin = (t_point3){0.f, 0.f, 0.f}
-// 	};
-// 	*scene->lights[1] = (t_light_simple){
-// 		.color = (t_color){0.f, 0.f, 0.f},
-// 		.origin = (t_point3){0.f, 0.f, 0.f}
-// 	};
-// 	scene->objects = (t_object **)ft_calloc(3, sizeof(t_object *));
-// 	if (scene->objects == NULL)
-// 		return (free_list((void **)scene->lights), NULL);
-// 	scene->objects[0] = malloc(sizeof(t_object));
-// 	scene->objects[1] = malloc(sizeof(t_object));
-// 	if (scene->objects[0] == NULL || scene->objects[1] == NULL)
-// 		return (free(scene->objects[0]), free(scene->objects[1]),
-// 			free(scene->objects), free_list((void **)scene->lights), NULL);
-// 	*scene->objects[0] = (t_object){
-// 		.type = OT_SPHERE,
-// 		.data.sphere = (t_object_sphere){
-// 		.color = (t_color){0.f, 0.f, 0.f},
-// 		.origin = (t_point3){0.f, 0.f, 0.f},
-// 		.diameter = 0.f
-// 	}};
-// 	*scene->objects[1] = (t_object){
-// 		.type = OT_SPHERE,
-// 		.data.sphere = (t_object_sphere){
-// 		.color = (t_color){0.f, 0.f, 0.f},
-// 		.origin = (t_point3){0.f, 0.f, 0.f},
-// 		.diameter = 0.f
-// 	}};
-// 	return (scene);
-// }
 
 static bool	_quit_on_q(
 				int keycode,
