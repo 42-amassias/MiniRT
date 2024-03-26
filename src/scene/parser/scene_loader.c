@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:41:44 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/26 18:57:44 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/26 19:39:07 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,10 +195,8 @@ static bool	_parse_line(
 	t_token					token_data[MAX_TOKEN_COUNT];
 
 	tokens = _tokenize(line);
-	if (tokens == NULL)
-		return (true);
-	if (tokens[0] == NULL)
-		return (free_list((void **)tokens), false);
+	if (tokens == NULL || tokens[0] == NULL || tokens[0][0] == '#')
+		return (free_list((void **)tokens), tokens == NULL);
 	element_descriptor = _get_element_descripror(tokens[0]);
 	if (element_descriptor == NULL)
 	{
