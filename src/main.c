@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:08:07 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/26 17:41:00 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:42:46 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,16 +80,9 @@ int	main(
 		_quit_no_cleanup(argv[0], "Missing scene file.", STDERR_FILENO, 1);
 	if (argc > 2)
 		_quit_no_cleanup(argv[0], "Too many arguments.", STDERR_FILENO, 1);
-	if (scene_load(&ctx.scene, argv[1]) == NULL)
-	{
-		scene_cleanup(&ctx.scene);
-		_quit_no_cleanup(argv[0], "", STDERR_FILENO, 1);
-	}
-	if (window_initialize(&ctx.window) == NULL)
-	{
-		scene_cleanup(&ctx.scene);
-		_quit_no_cleanup(argv[0], "", STDERR_FILENO, 1);
-	}
+	if (scene_load(&ctx.scene, argv[1]) == NULL
+		|| window_initialize(&ctx.window) == NULL)
+		return (scene_cleanup(&ctx.scene), EXIT_FAILURE);
 	window_set_key_hook(&ctx.window, (t_key_hook)_quit_on_q, &ctx.window);
 	window_set_render_hook(&ctx.window, (t_render_hook)_render, &ctx);
 	window_run(&ctx.window);
