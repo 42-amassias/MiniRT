@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_color.c                                     :+:      :+:    :+:   */
+/*   parser_float.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/22 16:47:44 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/24 11:57:29 by amassias         ###   ########.fr       */
+/*   Created: 2024/03/22 15:47:53 by amassias          #+#    #+#             */
+/*   Updated: 2024/03/26 15:55:35 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file parser_color.c
+ * @file parser_float.c
  * @author Antoine Massias (amassias@student.42lehavre.fr)
  * @date 2024-03-22
  * @copyright Copyright (c) 2024
@@ -25,32 +25,41 @@
 
 #include "scene_parser.h"
 
+#include <stdbool.h>
+#include <libft.h>
+
 /* ************************************************************************** */
 /*                                                                            */
 /* Header implementation                                                      */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*parser_color(
+char	*parser_next_float(
 			char *str,
-			t_color *color
+			float *v
 			)
 {
-	unsigned char	r;
-	unsigned char	g;
-	unsigned char	b;
+	bool	has_int;
+	bool	has_dec;
+	float	sign;
+	float	dec_part;
+	size_t	i;
 
-	str = parser_get_unsigned_char(str, &r);
-	if (str == NULL || *str++ != ',')
+	((void)0, has_int = false, sign = 1.f, i = 0, *v = 0.f, dec_part = 0.f);
+	if (*str == '+' || *str == '-')
+		((void)0, sign = -1.f, ++str);
+	while (ft_isdigit(*str))
+		((void)0, has_int = true, *v = 10.f * *v + (float)(*str++ - '0'));
+	if (*str++ != '.')
+		return (*v *= sign, str - 1);
+	while (ft_isdigit(*str))
+	{
+		((void)0, has_dec = true, ++i);
+		dec_part = 10.f * dec_part + (float)(*str++ - '0');
+	}
+	if (!has_int && !has_dec)
 		return (NULL);
-	str = parser_get_unsigned_char(str, &g);
-	if (str == NULL || *str++ != ',')
-		return (NULL);
-	str = parser_get_unsigned_char(str, &b);
-	if (str == NULL)
-		return (NULL);
-	color->r = (float)r / 255.f;
-	color->g = (float)g / 255.f;
-	color->b = (float)b / 255.f;
-	return (str);
+	while (i--)
+		dec_part /= 10.f;
+	return (*v = sign * (*v + dec_part), str);
 }

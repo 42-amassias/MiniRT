@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_unsigned_char.c                             :+:      :+:    :+:   */
+/*   parser_color.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/22 16:07:35 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 16:25:16 by amassias         ###   ########.fr       */
+/*   Created: 2024/03/22 16:47:44 by amassias          #+#    #+#             */
+/*   Updated: 2024/03/26 15:56:38 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file parser_unsigned_char.c
+ * @file parser_color.c
  * @author Antoine Massias (amassias@student.42lehavre.fr)
  * @date 2024-03-22
  * @copyright Copyright (c) 2024
@@ -25,31 +25,32 @@
 
 #include "scene_parser.h"
 
-#include <stdbool.h>
-#include <libft.h>
-
 /* ************************************************************************** */
 /*                                                                            */
 /* Header implementation                                                      */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*parser_get_unsigned_char(
+char	*parser_next_color(
 			char *str,
-			unsigned char *v
+			t_color *color
 			)
 {
-	int	_v;
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
 
-	_v = 0;
-	if (!ft_isdigit(*str))
+	str = parser_next_unsigned_char(str, &r);
+	if (str == NULL || *str++ != ',')
 		return (NULL);
-	while (ft_isdigit(*str))
-	{
-		_v = 10 * _v + *str++ - '0';
-		if (_v > 255)
-			return (NULL);
-	}
-	*v = (unsigned char) _v;
+	str = parser_next_unsigned_char(str, &g);
+	if (str == NULL || *str++ != ',')
+		return (NULL);
+	str = parser_next_unsigned_char(str, &b);
+	if (str == NULL)
+		return (NULL);
+	color->r = (float)r / 255.f;
+	color->g = (float)g / 255.f;
+	color->b = (float)b / 255.f;
 	return (str);
 }

@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:56:44 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 17:52:12 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/26 15:56:38 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,22 +137,22 @@ bool	element_acceptor__cylinder(
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*parser_get_float(
+char	*parser_next_float(
 			char *str,
 			float *value
 			);
 
-char	*parser_get_unsigned_char(
+char	*parser_next_unsigned_char(
 			char *str,
 			unsigned char *value
 			);
 
-char	*parser_color(
+char	*parser_next_color(
 			char *str,
 			t_color *color
 			);
 
-char	*parser_point3(
+char	*parser_next_point3(
 			char *str,
 			t_point3 *point
 			);

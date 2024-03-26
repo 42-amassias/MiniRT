@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:41:44 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/25 10:28:35 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/26 15:56:18 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,11 +133,11 @@ t_scene	*scene_load(
 			}
 			char	*end;
 			if (g_parsing_table[i].associated_tokens[j] == TOKEN_FLOAT)
-				end = parser_get_float(tokens[j + 1], &token_data[j].fp);
+				end = parser_next_float(tokens[j + 1], &token_data[j].fp);
 			else if (g_parsing_table[i].associated_tokens[j] == TOKEN_COLOR)
-				end = parser_color(tokens[j + 1], &token_data[j].color);
+				end = parser_next_color(tokens[j + 1], &token_data[j].color);
 			else if (g_parsing_table[i].associated_tokens[j] == TOKEN_POSITION)
-				end = parser_point3(tokens[j + 1], &token_data[j].position);
+				end = parser_next_point3(tokens[j + 1], &token_data[j].position);
 			else
 				((void)0, ft_putendl_fd("Unreachable", STDERR_FILENO), exit(1));
 			if (end == NULL || *end)

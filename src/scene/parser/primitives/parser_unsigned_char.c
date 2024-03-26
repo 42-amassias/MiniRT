@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_point3.c                                    :+:      :+:    :+:   */
+/*   parser_unsigned_char.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/22 16:47:44 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/24 12:06:16 by amassias         ###   ########.fr       */
+/*   Created: 2024/03/22 16:07:35 by amassias          #+#    #+#             */
+/*   Updated: 2024/03/26 15:56:39 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file parser_point3.c
+ * @file parser_unsigned_char.c
  * @author Antoine Massias (amassias@student.42lehavre.fr)
  * @date 2024-03-22
  * @copyright Copyright (c) 2024
@@ -25,23 +25,31 @@
 
 #include "scene_parser.h"
 
+#include <stdbool.h>
+#include <libft.h>
+
 /* ************************************************************************** */
 /*                                                                            */
 /* Header implementation                                                      */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdio.h>
-#include <unistd.h>
-char	*parser_point3(
+
+char	*parser_next_unsigned_char(
 			char *str,
-			t_point3 *point
+			unsigned char *v
 			)
 {
-	str = parser_get_float(str, &point->x);
-	if (str == NULL || *str++ != ',')
+	int	_v;
+
+	_v = 0;
+	if (!ft_isdigit(*str))
 		return (NULL);
-	str = parser_get_float(str, &point->y);
-	if (str == NULL || *str++ != ',')
-		return (NULL);
-	return (parser_get_float(str, &point->z));
+	while (ft_isdigit(*str))
+	{
+		_v = 10 * _v + *str++ - '0';
+		if (_v > 255)
+			return (NULL);
+	}
+	*v = (unsigned char) _v;
+	return (str);
 }
