@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ale-boud <ale-boud@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 11:16:57 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/22 16:02:18 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/26 14:34:32 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void	render_init(
 	runit->u = (t_vector3){0, 1, 0};
 	vec3_normalize(&runit->u, vec3_cross(&runit->u, &runit->u, &w));
 	vec3_normalize(&runit->v, vec3_cross(&runit->v, &w, &runit->u));
-	vec3_mul(&vu, &runit->u, vw);
-	vec3_mul(&vv, &runit->v, -vh);
+	vec3_mul(&vu, &runit->u, -vw);
+	vec3_mul(&vv, &runit->v, vh);
 	vec3_div(&runit->u, &vu, (fb->line_len * 8) / fb->bits_per_pixel);
 	vec3_div(&runit->v, &vv, fb->height);
 	(vec3_div(&vu, &vu, 2.0), vec3_div(&vv, &vv, 2.0));

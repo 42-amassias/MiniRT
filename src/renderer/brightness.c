@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:13:46 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/22 22:46:08 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/26 14:35:35 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,11 @@ void	_render_add_specular_brightness(
 			vec3_normalize(&dir, vec3_sub(&dir, &hit->p, &dir));
 			vec3_reflect_by(&dir, &dir, &hit->normal);
 			v = runit->center;
-			ratio = pow(vec3_dot(&dir, vec3_normalize(&v,
-							vec3_sub(&v, &v, &hit->p))), 32.);
+			ratio = vec3_dot(&dir, vec3_normalize(&v,
+						vec3_sub(&v, &v, &hit->p)));
+			if (ratio < 0.)
+				ratio = 0.;
+			ratio = pow(ratio, 32.f);
 			color_mul_scalar(&tmp, &(*lights)->color, ratio);
 			color_add(brightness, brightness, &tmp);
 		}
