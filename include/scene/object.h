@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:26:05 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/21 20:14:08 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/26 18:06:31 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,21 @@ typedef struct s_object_vt
 	int		(*hitten)(t_object *object, const t_ray *ray, t_hit *hit);
 	t_color	(*get_color)(t_object * object);
 }	t_object_vt;
+
+// ************************************************************************** //
+// *                                                                        * //
+// * Helper structure                                                       * //
+// *                                                                        * //
+// ************************************************************************** //
+
+typedef struct s_cylinder_vars
+{
+	t_coord	a;
+	t_coord	b;
+	t_coord	c;
+	t_coord	d;
+	t_coord	d_sqrt;
+}	t_cylinder_vars;
 
 // ************************************************************************** //
 // *                                                                        * //
