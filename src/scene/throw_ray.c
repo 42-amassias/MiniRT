@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 12:51:08 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/22 13:08:11 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/22 16:47:00 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,27 @@ int	scene_throw_ray(
 		++obj;
 	}
 	return (r);
+}
+
+int	scene_collision(
+		t_scene *scene,
+		const t_point3 *p1,
+		const t_point3 *p2
+		)
+{
+	t_object	**obj;
+	t_hit		tmp_hit;
+	t_ray		ray;
+
+	ray.origin = *p1;
+	ray.dir = *p2;
+	vec3_normalize(&ray.dir, vec3_sub(&ray.dir, &ray.dir, p1));
+	obj = scene->objects;
+	while (*obj != NULL)
+	{
+		if (g_object_vt[(*obj)->type].hitten(*obj, &ray, &tmp_hit))
+			return (1);
+		++obj;
+	}
+	return (0);
 }

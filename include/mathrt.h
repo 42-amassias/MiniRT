@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mathrt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
+/*   By: ale-boud <ale-boud@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:10:38 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/22 14:05:47 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/26 15:03:08 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #ifndef MATHRT_H
 # define MATHRT_H
 
-# define FAR 10000.0
+# define FAR 250.0
 # define NEAR 0.01
 
 // ************************************************************************** //
@@ -145,6 +145,36 @@ t_coord		vec3_len_squared(
 
 t_coord		vec3_len(
 				const t_vector3 *v
+				);
+
+t_vector3	*vec3_reflect_by(
+				t_vector3 *r,
+				const t_vector3 *v,
+				const t_vector3 *normal
+				);
+
+// ************************************************************************** //
+// *                                                                        * //
+// * Color function definition                                              * //
+// *                                                                        * //
+// ************************************************************************** //
+
+t_color		*color_add(
+				t_color *r,
+				const t_color *c1,
+				const t_color *c2
+				);
+
+t_color		*color_mul_scalar(
+				t_color *r,
+				const t_color *c,
+				float scalar
+				);
+
+t_color		*color_mul(
+				t_color *r,
+				const t_color *c1,
+				const t_color *c2
 				);
 
 // ************************************************************************** //

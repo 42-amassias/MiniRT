@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 19:14:10 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/22 12:49:29 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/03/22 17:58:12 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	render_throw_rays(
 
 void	render_throw_ray(
 			t_render_unit *runit,
+			const t_ray *ray,
 			t_color *color
 			);
 
@@ -82,6 +83,29 @@ void	render_put_color(
 			const t_color *color,
 			int x,
 			int y
+			);
+
+void	render_resolve_color(
+			t_render_unit *runit,
+			const t_hit *hit
+			);
+
+void	render_get_brightness(
+			t_render_unit *runit,
+			const t_hit *hit,
+			t_color *brightness
+			);
+
+void	_render_add_diffuse_brightness(
+			t_render_unit *runit,
+			const t_hit *hit,
+			t_color *brightness
+			);
+
+void	_render_add_specular_brightness(
+			t_render_unit *runit,
+			const t_hit *hit,
+			t_color *brightness
 			);
 
 #endif

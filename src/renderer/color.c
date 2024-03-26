@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   throw_ray.c                                        :+:      :+:    :+:   */
+/*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ale-boud <ale-boud@student.42lehavre.fr    +#+  +:+       +#+        */
+/*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/22 12:48:00 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/26 14:36:14 by ale-boud         ###   ########.fr       */
+/*   Created: 2024/03/22 13:31:50 by ale-boud          #+#    #+#             */
+/*   Updated: 2024/03/22 13:48:37 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file throw_ray.c
+ * @file color.c
  * @author ale-boud (ale-boud@student.42lehavre.fr)
- * @brief Core of the ray tracer.
+ * @brief Color resolution function.
  * @date 2024-03-22
  * @copyright Copyright (c) 2024
  */
@@ -24,6 +24,8 @@
 // *                                                                        * //
 // ************************************************************************** //
 
+#include "graphics/framebuffer.h"
+
 #include "renderer.h"
 
 // ************************************************************************** //
@@ -32,49 +34,36 @@
 // *                                                                        * //
 // ************************************************************************** //
 
-void	render_throw_rays(
-			t_render_unit *runit
-			)
-{
-	int			x;
-	int			y;
-	t_vector3	v;
-	t_ray		ray;
-	t_color		color;
-
-	ray.origin = runit->center;
-	y = 0;
-	while (y < runit->fb->height)
-	{
-		x = 0;
-		while (x < runit->fb->line_len)
-		{
-			vec3_add(&ray.dir,
-				vec3_mul(&ray.dir, &runit->u, x),
-				vec3_mul(&v, &runit->v, y));
-			vec3_add(&ray.dir, &runit->pixel00, &ray.dir);
-			vec3_sub(&ray.dir, &ray.dir, &runit->center);
-			render_throw_ray(runit, &ray, &color);
-			render_put_color(runit, &color, x, y);
-			++x;
-		}
-		++y;
-	}
-}
-
-void	render_throw_ray(
+void	render_put_color(
 			t_render_unit *runit,
-			const t_ray *ray,
-			t_color *color
+			const t_color *color,
+			int x,
+			int y
 			)
 {
-	t_hit	hit;
-	t_color	brightness;
+	uint32_t	encoded_color;
+	int			r;
+	int			g;
+	int			b;
 
-	*color = runit->scene->ambient.color;
-	if (scene_throw_ray(runit->scene, ray, &hit))
-	{
-		render_get_brightness(runit, &hit, &brightness);
-		color_mul(color, &hit.color, &brightness);
-	}
+	r = (int)((float)0xFF * color->r);
+	g = (int)((float)0xFF * color->g);
+	b = (int)((float)0xFF * color->b);
+	if (r < 0)
+		r = 0;
+	if (g < 0)
+		g = 0;
+	if (b < 0)
+		b = 0;
+	if (r > 0xFF)
+		r = 0xFF;
+	if (g > 0xFF)
+		g = 0xFF;
+	if (b > 0xFF)
+		b = 0xFF;
+	encoded_color = ((b & 0xFF) << 0)
+		| ((g & 0xFF) << 8)
+		| ((r & 0xFF) << 16)
+		| (0xFF << 24);
+	fb_put_pixel(runit->fb, encoded_color, x, y);
 }
