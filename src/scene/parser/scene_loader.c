@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:41:44 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/26 15:56:18 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/26 15:59:41 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ t_scene	*scene_load(
 		return (NULL);
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
-		return (perror("EXEC"), NULL);
+		return (perror(path), NULL);
 	if (_read_lines(fd, &lines))
 		return (close(fd), NULL);
 	close(fd);
