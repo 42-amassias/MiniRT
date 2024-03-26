@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:08:07 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/26 17:42:46 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/26 19:27:37 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,6 @@ static bool				_quit_on_q(
 							t_window_ctx *ctx
 							);
 
-static bool				_render(
-							t_minirt_ctx *ctx
-							);
-
 /* ************************************************************************** */
 /*                                                                            */
 /* Main                                                                       */
@@ -84,9 +80,9 @@ int	main(
 		|| window_initialize(&ctx.window) == NULL)
 		return (scene_cleanup(&ctx.scene), EXIT_FAILURE);
 	window_set_key_hook(&ctx.window, (t_key_hook)_quit_on_q, &ctx.window);
-	window_set_render_hook(&ctx.window, (t_render_hook)_render, &ctx);
-	window_run(&ctx.window);
+	render_scene(&ctx.scene, &ctx.window.frame_buffer);
 	scene_cleanup(&ctx.scene);
+	window_run(&ctx.window);
 	window_cleanup(&ctx.window);
 	return (0);
 }
@@ -126,13 +122,5 @@ static bool	_quit_on_q(
 	(void)ctx;
 	if (keycode == 'q')
 		return (true);
-	return (false);
-}
-
-static bool	_render(
-				t_minirt_ctx *ctx
-				)
-{
-	render_scene(&ctx->scene, &ctx->window.frame_buffer);
 	return (false);
 }
