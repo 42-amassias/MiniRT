@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:41:44 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/27 11:59:25 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/27 12:08:32 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,10 @@
 
 #define ERR_MSG_LIGHT "Scene is missing an ambiant light.\n"
 #define ERR_MSG_CAMERA "Scene is missing a camera.\n"
+#define ERR_MSG_MISSING_TOK "Missing token for element %s.\n"
+#define ERR_MSG_UNKNOWN_ELEM "Unknown element: %s\n"
+#define ERR_MSG_PARSING "Could not finish parsing for line: %s\n"
+#define ERR_MSG_ACCEPT "Did not accept: %s\n"
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -180,11 +184,7 @@ static bool	_parse_associated_tokens(
 	while (j < element_descriptor->associated_tokens_count)
 	{
 		if (tokens[j + 1] == NULL)
-		{
-			dprintf(STDERR_FILENO, "Missing token for element %s.\n",
-				element_name);
-			return (true);
-		}
+			return (log_msg(LOG_ERR, ERR_MSG_MISSING_TOK, element_name), true);
 		parser = g_token_parser[element_descriptor->associated_tokens[j]];
 		end = parser(tokens[j + 1], &token_data[j]);
 		if (end == NULL || (*end && *end != '#'))
@@ -210,19 +210,13 @@ static bool	_parse_line(
 		return (free_list((void **)tokens), tokens == NULL);
 	element_descriptor = _get_element_descripror(tokens[0]);
 	if (element_descriptor == NULL)
-	{
-		dprintf(STDERR_FILENO, "Unknown element: %s\n", tokens[0]);
-		return (free_list((void **)tokens), true);
-	}
+		return (log_msg(LOG_ERR, ERR_MSG_UNKNOWN_ELEM, tokens[0]),
+			free_list((void **)tokens), true);
 	if (_parse_associated_tokens(element_descriptor, token_data, tokens))
-	{
-		dprintf(STDERR_FILENO, "Could not finish parsing for line: %s\n", line);
-		return (free_list((void **)tokens), true);
-	}
+		return (log_msg(LOG_ERR, ERR_MSG_PARSING, line),
+			free_list((void **)tokens), true);
 	if (!element_descriptor->acceptor(scene, token_data))
-	{
-		dprintf(STDERR_FILENO, "Did not accept: %s\n", line);
-		return (free_list((void **)tokens), true);
-	}
+		return (log_msg(LOG_ERR, ERR_MSG_ACCEPT, line),
+			free_list((void **)tokens), true);
 	return (free_list((void **)tokens), false);
 }
