@@ -7,8 +7,8 @@ A 0.2  255, 255, 255
 # Lights
 #    Position  Ratio        Color
 # X    Y    Z      R    R   G   B
-L 0, 3.6, 4.5    0.4  255,255,255
-L 0, 1.5,   0  0.101  255,255,255
+L 0,   2.999, 4.5    0.4  255,255,255
+L 0,     1.5,   0  0.101  255,255,255
 
 # Spheres
 #       Position  Radius       Color
