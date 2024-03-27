@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:41:44 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/26 19:45:12 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/27 11:59:25 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Defines                                                                    */
+/*                                                                            */
+/* ************************************************************************** */
+
+#define ERR_MSG_LIGHT "Scene is missing an ambiant light.\n"
+#define ERR_MSG_CAMERA "Scene is missing a camera.\n"
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -84,26 +93,26 @@ t_scene	*scene_load(
 	t_list					*itr;
 
 	scene->objects = (t_object **)ft_calloc(1, sizeof(t_object *));
-	if (scene->objects == NULL)
-		return (NULL);
 	scene->lights = (t_light_simple **)ft_calloc(1, sizeof(t_light_simple *));
-	if (scene->lights == NULL)
-		return (NULL);
+	if (scene->objects == NULL || scene->lights == NULL)
+		return (free(scene->objects), free(scene->lights), NULL);
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 		return (perror(path), NULL);
 	if (read_lines_from_fd(fd, &lines))
 		return (close(fd), NULL);
-	close(fd);
-	itr = lines;
+	(close(fd), itr = lines);
 	while (itr)
 	{
 		if (_parse_line(scene, (const char *)itr->content))
 			return (ft_lstclear(&lines, free), NULL);
 		itr = itr->next;
 	}
-	ft_lstclear(&lines, free);
-	return (scene);
+	if (!scene->_has_ambiant)
+		(log_msg(LOG_ERR, ERR_MSG_LIGHT), scene = NULL);
+	if (scene && !scene->_has_camera)
+		(log_msg(LOG_ERR, ERR_MSG_CAMERA), scene = NULL);
+	return (ft_lstclear(&lines, free), scene);
 }
 
 /* ************************************************************************** */

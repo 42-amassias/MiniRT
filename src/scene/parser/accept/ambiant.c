@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:55:20 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 17:52:34 by amassias         ###   ########.fr       */
+/*   Updated: 2024/03/27 11:45:03 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,6 @@ bool	element_acceptor__ambient_light(
 	scene->ambient.color.r = tokens[COLOR].color.r * tokens[RATIO].fp;
 	scene->ambient.color.g = tokens[COLOR].color.g * tokens[RATIO].fp;
 	scene->ambient.color.b = tokens[COLOR].color.b * tokens[RATIO].fp;
+	scene->_has_ambiant = true;
 	return (true);
 }
