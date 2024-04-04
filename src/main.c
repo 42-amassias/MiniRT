@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:08:07 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/26 19:27:37 by amassias         ###   ########.fr       */
+/*   Updated: 2024/04/04 02:08:41 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,16 @@
 
 #include "minirt.h"
 #include "renderer.h"
+#include "utils.h"
 
+#include <libft.h>
+#include <math.h>
 #include <mlx.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdnoreturn.h>
 #include <unistd.h>
-
-#include <math.h>
-#include <libft.h>
-#include "utils.h"
+#include <X11/keysym.h>
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -54,7 +54,7 @@ noreturn static void	_quit_no_cleanup(
 							int code
 							);
 
-static bool				_quit_on_q(
+static bool				_handle_keys(
 							int keycode,
 							t_window_ctx *ctx
 							);
@@ -79,7 +79,7 @@ int	main(
 	if (scene_load(&ctx.scene, argv[1]) == NULL
 		|| window_initialize(&ctx.window) == NULL)
 		return (scene_cleanup(&ctx.scene), EXIT_FAILURE);
-	window_set_key_hook(&ctx.window, (t_key_hook)_quit_on_q, &ctx.window);
+	window_set_key_hook(&ctx.window, (t_key_hook)_handle_keys, &ctx.window);
 	render_scene(&ctx.scene, &ctx.window.frame_buffer);
 	scene_cleanup(&ctx.scene);
 	window_run(&ctx.window);
@@ -114,13 +114,13 @@ noreturn static void	_quit_no_cleanup(
 	exit(code);
 }
 
-static bool	_quit_on_q(
+static bool	_handle_keys(
 				int keycode,
 				t_window_ctx *ctx
 				)
 {
 	(void)ctx;
-	if (keycode == 'q')
+	if (keycode == XK_q || keycode == XK_Escape)
 		return (true);
 	return (false);
 }
