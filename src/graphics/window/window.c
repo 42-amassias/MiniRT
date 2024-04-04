@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 11:12:10 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/22 11:57:47 by amassias         ###   ########.fr       */
+/*   Updated: 2024/04/04 02:36:23 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,17 @@
 
 #include <mlx.h>
 #include <stdlib.h>
+#include <X11/Xlib.h>
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Helper protoypes                                                           */
+/*                                                                            */
+/* ************************************************************************** */
+
+static int	_redraw_wraper(
+				t_window_ctx *ctx
+				);
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -55,6 +66,8 @@ t_window_ctx	*window_initialize(
 			&ctx->frame_buffer.line_len,
 			&ctx->frame_buffer.endian);
 	ctx->frame_buffer.height = WINDOW_DEFAULT_HEIGHT;
+	mlx_expose_hook(ctx->win, _redraw_wraper, ctx);
+	mlx_hook(ctx->win, DestroyNotify, 0, mlx_loop_end, ctx->ctx);
 	return (ctx);
 }
 
@@ -72,4 +85,18 @@ void	window_cleanup(
 	}
 	mlx_destroy_display(ctx->ctx);
 	free(ctx->ctx);
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/* Helper implementation                                                      */
+/*                                                                            */
+/* ************************************************************************** */
+
+static int	_redraw_wraper(
+				t_window_ctx *ctx
+				)
+{
+	window_redraw(ctx);
+	return (0);
 }

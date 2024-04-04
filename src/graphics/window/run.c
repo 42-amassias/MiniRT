@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 12:20:48 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/26 19:25:56 by amassias         ###   ########.fr       */
+/*   Updated: 2024/04/04 02:26:38 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 /* ************************************************************************** */
 
 static int	_loop(
-				t_window_ctx *ctx
+				void *_
 				);
 
 static int	_key_hook_wrapper(
@@ -54,7 +54,7 @@ void	window_run(
 			)
 {
 	mlx_key_hook(ctx->win, _key_hook_wrapper, ctx);
-	mlx_loop_hook(ctx->ctx, _loop, ctx);
+	mlx_loop_hook(ctx->ctx, _loop, NULL);
 	mlx_loop(ctx->ctx);
 }
 
@@ -65,10 +65,10 @@ void	window_run(
 /* ************************************************************************** */
 
 static int	_loop(
-				t_window_ctx *ctx
+				void *_
 				)
 {
-	mlx_put_image_to_window(ctx->ctx, ctx->win, ctx->frame_buffer.img, 0, 0);
+	(void)_;
 	return (0);
 }
 
@@ -79,8 +79,9 @@ static int	_key_hook_wrapper(
 {
 	const t_key_hook	_key_hook = ctx->__hooks[__HOOK__KEY].fun;
 
-	if (ctx->__hooks[__HOOK__KEY].fun)
-		if (_key_hook(keycode, ctx->__hooks[__HOOK__KEY].ptr))
-			mlx_loop_end(ctx->ctx);
+	if (!ctx->__hooks[__HOOK__KEY].fun)
+		return (0);
+	if (_key_hook(keycode, ctx->__hooks[__HOOK__KEY].ptr))
+		mlx_loop_end(ctx->ctx);
 	return (0);
 }

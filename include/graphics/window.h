@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 09:23:54 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/26 19:26:13 by amassias         ###   ########.fr       */
+/*   Updated: 2024/04/04 02:11:25 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,10 @@ void			window_set_key_hook(
 					);
 
 void			window_run(
+					t_window_ctx *ctx
+					);
+
+void			window_redraw(
 					t_window_ctx *ctx
 					);
 
