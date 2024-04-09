@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:26:05 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/03/26 18:06:31 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:02:03 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ typedef struct s_object
 typedef struct s_object_vt
 {
 	int		(*hit)(t_object *object, const t_ray *ray, t_hit *hit);
-	t_color	(*get_color)(t_object * object);
 }	t_object_vt;
 
 // ************************************************************************** //
@@ -110,10 +109,6 @@ int		sphere_hit(
 			t_hit *hit
 			);
 
-t_color	sphere_get_color(
-			t_object *object
-			);
-
 // ************************************************************************** //
 // *                                                                        * //
 // * Plane functions                                                        * //
@@ -126,10 +121,6 @@ int		plane_hit(
 			t_hit *hit
 			);
 
-t_color	plane_get_color(
-			t_object *object
-			);
-
 // ************************************************************************** //
 // *                                                                        * //
 // * Cylinder functions                                                     * //
@@ -140,10 +131,6 @@ int		cylinder_hit(
 			t_object *object,
 			const t_ray *ray,
 			t_hit *hit
-			);
-
-t_color	cylinder_get_color(
-			t_object *object
 			);
 
 // ************************************************************************** //
