@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:55:35 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/04/11 16:22:31 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:34:59 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ static int	_cone_hit_compute_height(
 	hit->from_dir = ray->dir;
 	vec3_normalize(&hit->normal, vec3_sub(&hit->normal,
 			vec3_sub(&pc, &p, &cone->origin), vec3_mul(&hit->normal,
-					&cone->axis, (cone->tang * cone->tang + 1) * (-m))));
+				&cone->axis, (cone->tang * cone->tang + 1) * (-m))));
 	hit->color = cone->color;
 	return (1);
 }
