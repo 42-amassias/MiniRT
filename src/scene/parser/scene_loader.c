@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:41:44 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/27 12:08:32 by amassias         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:04:22 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@
 #define ERR_MSG_UNKNOWN_ELEM "Unknown element: %s\n"
 #define ERR_MSG_PARSING "Could not finish parsing for line: %s\n"
 #define ERR_MSG_ACCEPT "Did not accept: %s\n"
+#define ERR_MSG_UNEXPECTED_VALUE "Unexpected value for a token %s: %s\n"
+#define ERR_MSG_UNEXPECTED_TOK "Unexpected token: %s\n"
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -177,23 +179,24 @@ static bool	_parse_associated_tokens(
 {
 	const char			*element_name = tokens[0];
 	const char			*end;
-	t_primitive_parser	parser;
 	size_t				j;
+	t_token_type		token_type;
 
 	j = 0;
 	while (j < element_descriptor->associated_tokens_count)
 	{
 		if (tokens[j + 1] == NULL)
 			return (log_msg(LOG_ERR, ERR_MSG_MISSING_TOK, element_name), true);
-		parser = g_token_parser[element_descriptor->associated_tokens[j]];
-		end = parser(tokens[j + 1], &token_data[j]);
+		token_type = element_descriptor->associated_tokens[j++];
+		end = g_token_parser[token_type](tokens[j], &token_data[j - 1]);
 		if (end == NULL || (*end && *end != '#'))
-			return (true);
-		++j;
+			return (log_msg(LOG_ERR, ERR_MSG_UNEXPECTED_VALUE,
+					g_token_name[token_type], tokens[j]), true);
 	}
 	if (tokens[j + 1] == NULL || tokens[j + 1][0] == '#')
 		return (false);
-	return (true);
+	return (log_msg(LOG_ERR, ERR_MSG_UNEXPECTED_TOK,
+			tokens[j + 1]), true);
 }
 
 static bool	_parse_line(

@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:56:44 by amassias          #+#    #+#             */
-/*   Updated: 2024/04/09 15:53:13 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:28:28 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_element_descriptor
 /* ************************************************************************** */
 
 extern t_primitive_parser		g_token_parser[TOKEN__COUNT];
+extern const char				*g_token_name[TOKEN__COUNT];
 extern t_element_descriptor		g_parsing_table[ELEMENT__COUNT];
 
 /* ************************************************************************** */

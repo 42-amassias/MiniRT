@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:12:05 by amassias          #+#    #+#             */
-/*   Updated: 2024/04/09 15:53:22 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:27:59 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ t_primitive_parser			g_token_parser[TOKEN__COUNT] = {
 [TOKEN_POSITION] = (t_primitive_parser)parser_next_point3,
 };
 
+const char					*g_token_name[TOKEN__COUNT] = {
+[TOKEN_FLOAT] = "FLOAT",
+[TOKEN_COLOR] = "COLOR",
+[TOKEN_POSITION] = "POSITION",
+};
+
 t_element_descriptor		g_parsing_table[ELEMENT__COUNT] = {
 [ELEMENT_AMBIENT_LIGHT] = {
 	.name = "A",
@@ -51,7 +57,7 @@ t_element_descriptor		g_parsing_table[ELEMENT__COUNT] = {
 	.acceptor = element_acceptor__camera,
 },
 [ELEMENT_LIGHT] = {
-	.name = "L",
+	.name = "l",
 	.associated_tokens_count = 3,
 	.associated_tokens = {TOKEN_POSITION, TOKEN_FLOAT, TOKEN_COLOR},
 	.acceptor = element_acceptor__light,
