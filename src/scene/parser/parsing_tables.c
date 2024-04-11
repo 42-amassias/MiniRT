@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:12:05 by amassias          #+#    #+#             */
-/*   Updated: 2024/04/11 15:15:47 by amassias         ###   ########.fr       */
+/*   Updated: 2024/04/11 15:46:04 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ t_primitive_parser			g_token_parser[TOKEN__COUNT] = {
 [TOKEN_FLOAT] = (t_primitive_parser)parser_next_float,
 [TOKEN_COLOR] = (t_primitive_parser)parser_next_color,
 [TOKEN_POSITION] = (t_primitive_parser)parser_next_point3,
+};
+
+const char					*g_token_name[TOKEN__COUNT] = {
+[TOKEN_FLOAT] = "FLOAT",
+[TOKEN_COLOR] = "COLOR",
+[TOKEN_POSITION] = "POSITION",
 };
 
 t_element_descriptor		g_parsing_table[ELEMENT__COUNT] = {

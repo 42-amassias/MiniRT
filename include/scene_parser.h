@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:56:44 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/26 17:31:10 by amassias         ###   ########.fr       */
+/*   Updated: 2024/04/11 15:46:21 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_element_descriptor
 /* ************************************************************************** */
 
 extern t_primitive_parser		g_token_parser[TOKEN__COUNT];
+extern const char				*g_token_name[TOKEN__COUNT];
 extern t_element_descriptor		g_parsing_table[ELEMENT__COUNT];
 
 /* ************************************************************************** */
