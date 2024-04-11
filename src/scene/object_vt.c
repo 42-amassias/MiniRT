@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 19:38:12 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/04/09 15:02:14 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:54:54 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,5 @@ const t_object_vt	g_object_vt[OT__COUNT] = {
 [OT_SPHERE] = {sphere_hit},
 [OT_PLANE] = {plane_hit},
 [OT_CYLINDER] = {cylinder_hit},
+[OT_CONE] = {cone_hit},
 };

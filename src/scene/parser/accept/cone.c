@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cylinder.c                                         :+:      :+:    :+:   */
+/*   cone.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/22 16:55:20 by amassias          #+#    #+#             */
-/*   Updated: 2024/04/09 15:51:24 by ale-boud         ###   ########.fr       */
+/*   Created: 2024/04/09 15:03:24 by ale-boud          #+#    #+#             */
+/*   Updated: 2024/04/09 15:51:43 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file cylinder.c
- * @author Antoine Massias (amassias@student.42lehavre.fr)
- * @date 2024-03-22
+ * @file cone.c
+ * @author ale-boud (ale-boud@student.42lehavre.fr)
+ * @date 2024-04-09
  * @copyright Copyright (c) 2024
  */
 
@@ -34,8 +34,8 @@
 
 #define ORIGIN 0
 #define AXIS 1
-#define DIAMETER 2
-#define HEIGHT 3
+#define HEIGHT 2
+#define TANG 3
 #define COLOR 4
 
 /* ************************************************************************** */
@@ -44,7 +44,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-bool	element_acceptor__cylinder(
+bool	element_acceptor__cone(
 			t_scene *scene,
 			t_token tokens[]
 			)
@@ -55,13 +55,13 @@ bool	element_acceptor__cylinder(
 	object = (t_object *)malloc(sizeof(t_object));
 	if (object == NULL)
 		return (false);
-	object->type = OT_CYLINDER;
-	object->data.cylinder.origin = tokens[ORIGIN].position;
-	object->data.cylinder.axis = tokens[AXIS].position;
-	object->data.cylinder.diameter = tokens[DIAMETER].fp;
-	object->data.cylinder.height = tokens[HEIGHT].fp;
-	object->data.cylinder.color = tokens[COLOR].color;
-	vec3_normalize(&object->data.cylinder.axis, &object->data.cylinder.axis);
+	object->type = OT_CONE;
+	object->data.cone.origin = tokens[ORIGIN].position;
+	object->data.cone.axis = tokens[AXIS].position;
+	object->data.cone.height = tokens[HEIGHT].fp;
+	object->data.cone.tang = tokens[TANG].fp;
+	object->data.cone.color = tokens[COLOR].color;
+	vec3_normalize(&object->data.cone.axis, &object->data.cone.axis);
 	objects = (t_object **)list_append((void **)scene->objects, object);
 	if (objects == NULL)
 		return (free(object), false);

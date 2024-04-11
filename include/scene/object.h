@@ -6,7 +6,7 @@
 /*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:26:05 by ale-boud          #+#    #+#             */
-/*   Updated: 2024/04/09 15:02:03 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:57:28 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef enum e_object_type
 	OT_SPHERE,
 	OT_PLANE,
 	OT_CYLINDER,
+	OT_CONE,
 	OT__COUNT
 }	t_object_type;
 
@@ -66,6 +67,15 @@ typedef struct s_object_cylinder
 	t_color		color;
 }	t_object_cylinder;
 
+typedef struct s_object_cone
+{
+	t_point3	origin;
+	t_point3	axis;
+	t_coord		height;
+	t_coord		tang;
+	t_color		color;
+}	t_object_cone;
+
 typedef struct s_object
 {
 	union	u_object
@@ -73,6 +83,7 @@ typedef struct s_object
 		t_object_sphere		sphere;
 		t_object_plane		plane;
 		t_object_cylinder	cylinder;
+		t_object_cone		cone;
 	}					data;
 	t_object_type		type;
 }	t_object;
@@ -96,6 +107,15 @@ typedef struct s_cylinder_vars
 	t_coord	d;
 	t_coord	d_sqrt;
 }	t_cylinder_vars;
+
+typedef struct s_cone_vars
+{
+	t_coord	a;
+	t_coord	b;
+	t_coord	c;
+	t_coord	d;
+	t_coord	d_sqrt;
+}	t_cone_vars;
 
 // ************************************************************************** //
 // *                                                                        * //
@@ -128,6 +148,18 @@ int		plane_hit(
 // ************************************************************************** //
 
 int		cylinder_hit(
+			t_object *object,
+			const t_ray *ray,
+			t_hit *hit
+			);
+
+// ************************************************************************** //
+// *                                                                        * //
+// * Cylinder functions                                                     * //
+// *                                                                        * //
+// ************************************************************************** //
+
+int		cone_hit(
 			t_object *object,
 			const t_ray *ray,
 			t_hit *hit

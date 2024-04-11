@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_tables.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
+/*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:12:05 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/26 17:31:42 by amassias         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:53:22 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,12 @@ t_element_descriptor		g_parsing_table[ELEMENT__COUNT] = {
 	.associated_tokens = {TOKEN_POSITION, TOKEN_POSITION, TOKEN_FLOAT,
 	TOKEN_FLOAT, TOKEN_COLOR},
 	.acceptor = element_acceptor__cylinder,
-}
+},
+[ELEMENT_CONE] = {
+	.name = "co",
+	.associated_tokens_count = 5,
+	.associated_tokens = {TOKEN_POSITION, TOKEN_POSITION, TOKEN_FLOAT,
+	TOKEN_FLOAT, TOKEN_COLOR},
+	.acceptor = element_acceptor__cone,
+},
 };

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene_parser.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
+/*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:56:44 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/26 17:31:10 by amassias         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:53:13 by ale-boud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef enum e_element_type
 	ELEMENT_SPHERE,
 	ELEMENT_PLANE,
 	ELEMENT_CYLINDER,
+	ELEMENT_CONE,
 	ELEMENT__COUNT,
 }	t_element_type;
 
@@ -129,6 +130,11 @@ bool	element_acceptor__plane(
 			);
 
 bool	element_acceptor__cylinder(
+			t_scene *scene,
+			t_token tokens[]
+			);
+
+bool	element_acceptor__cone(
 			t_scene *scene,
 			t_token tokens[]
 			);
