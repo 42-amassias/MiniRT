@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:12:05 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/26 17:31:42 by amassias         ###   ########.fr       */
+/*   Updated: 2024/04/11 15:15:47 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_element_descriptor		g_parsing_table[ELEMENT__COUNT] = {
 	.acceptor = element_acceptor__camera,
 },
 [ELEMENT_LIGHT] = {
-	.name = "L",
+	.name = "l",
 	.associated_tokens_count = 3,
 	.associated_tokens = {TOKEN_POSITION, TOKEN_FLOAT, TOKEN_COLOR},
 	.acceptor = element_acceptor__light,
