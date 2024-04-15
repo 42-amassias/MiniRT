@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:08:07 by amassias          #+#    #+#             */
-/*   Updated: 2024/04/11 17:57:42 by amassias         ###   ########.fr       */
+/*   Updated: 2024/04/15 17:46:43 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static bool				_handle_keys(
 							t_window_ctx *ctx
 							);
 
-static bool				_is_file_name_ok(
+static bool				_is_file_name_valid(
 							const char *path
 							);
 
@@ -80,7 +80,7 @@ int	main(
 		_quit_no_cleanup(argv[0], "Missing scene file.", STDERR_FILENO, 1);
 	if (argc > 2)
 		_quit_no_cleanup(argv[0], "Too many arguments.", STDERR_FILENO, 1);
-	if (!_is_file_name_ok(argv[1])
+	if (!_is_file_name_valid(argv[1])
 		|| scene_load(&ctx.scene, argv[1]) == NULL
 		|| window_initialize(&ctx.window) == NULL)
 		return (scene_cleanup(&ctx.scene), EXIT_FAILURE);
@@ -130,14 +130,14 @@ static bool	_handle_keys(
 	return (false);
 }
 
-static bool	_is_file_name_ok(
+static bool	_is_file_name_valid(
 				const char *path
 				)
 {
 	const size_t	len = ft_strlen(path);
 	const bool		ok = len >= 4 && ft_strcmp(path + len - 3, ".rt") == 0;
 
-	if (ok)
+	if (!ok)
 		log_msg(LOG_ERR, "%s: invalid file\n", path);
 	return (ok);
 }
