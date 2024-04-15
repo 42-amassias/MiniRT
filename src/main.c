@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:08:07 by amassias          #+#    #+#             */
-/*   Updated: 2024/04/15 17:46:43 by amassias         ###   ########.fr       */
+/*   Updated: 2024/04/15 18:15:38 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,6 @@ static bool	_is_file_name_valid(
 	const bool		ok = len >= 4 && ft_strcmp(path + len - 3, ".rt") == 0;
 
 	if (!ok)
-		log_msg(LOG_ERR, "%s: invalid file\n", path);
+		log_msg(LOG_ERR, "%s: invalid file format\n", path);
 	return (ok);
 }
