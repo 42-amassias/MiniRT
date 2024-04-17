@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:55:20 by amassias          #+#    #+#             */
-/*   Updated: 2024/04/11 15:13:41 by amassias         ###   ########.fr       */
+/*   Updated: 2024/04/17 19:03:17 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@ bool	element_acceptor__camera(
 	if (scene->_has_camera)
 		return (false);
 	if (tokens[FOV].fp < 0.f || tokens[FOV].fp > 180.f)
+		return (false);
+	if (tokens[ORIENTATION].position.x == 0
+		&& tokens[ORIENTATION].position.y == 0
+		&& tokens[ORIENTATION].position.z == 0)
 		return (false);
 	scene->camera.position = tokens[VIEW].position;
 	scene->camera.orientation = tokens[ORIENTATION].position;

@@ -6,7 +6,7 @@
 /*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:55:20 by amassias          #+#    #+#             */
-/*   Updated: 2024/03/26 17:48:01 by amassias         ###   ########.fr       */
+/*   Updated: 2024/04/17 19:03:56 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@ bool	element_acceptor__plane(
 	t_object		**objects;
 	t_object		*object;
 
+	if (tokens[NORMAL].position.x == 0
+		&& tokens[NORMAL].position.y == 0
+		&& tokens[NORMAL].position.z == 0)
+		return (false);
 	object = (t_object *)malloc(sizeof(t_object));
 	if (object == NULL)
 		return (false);

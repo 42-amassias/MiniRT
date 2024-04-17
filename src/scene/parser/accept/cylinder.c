@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ale-boud <ale-boud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amassias <amassias@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:55:20 by amassias          #+#    #+#             */
-/*   Updated: 2024/04/09 15:51:24 by ale-boud         ###   ########.fr       */
+/*   Updated: 2024/04/17 19:03:43 by amassias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@ bool	element_acceptor__cylinder(
 	t_object		**objects;
 	t_object		*object;
 
+	if (tokens[AXIS].position.x == 0
+		&& tokens[AXIS].position.y == 0
+		&& tokens[AXIS].position.z == 0)
+		return (false);
 	object = (t_object *)malloc(sizeof(t_object));
 	if (object == NULL)
 		return (false);
